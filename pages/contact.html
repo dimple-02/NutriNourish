@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Us - NutriNourish</title>
+        <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+        <nav class="top-nav">
+            <div class="top-nav__inner">
+                <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                    <span class="nav-toggle__line"></span>
+                </button>
+                <ul class="nav-links" data-nav-links>
+                    <li><a href="welcome.html">Home</a></li>
+                    <li><a href="contact.html" aria-current="page">Contact</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="page">
+            <section class="hero">
+                <div>
+                    <p class="eyebrow">We're Here to Help</p>
+                    <h1>Get in Touch with NutriNourish</h1>
+                    <p class="lead">Have questions about nutrition tracking, need technical support, or want to share feedback? We'd love to hear from you.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80" alt="Fresh vegetables on a table">
+            </section>
+
+            <!-- Contact Methods -->
+            <section class="section grid grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📧</div>
+                    <h3>Email Support</h3>
+                    <p>Get a response within 24-48 hours</p>
+                    <a href="mailto:support@nutrinourish.com" style="color: var(--brand); font-weight: 600;">support@nutrinourish.com</a>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💬</div>
+                    <h3>Live Chat</h3>
+                    <p>Available Mon-Fri, 9 AM - 5 PM EST</p>
+                    <button class="btn-primary" onclick="alert('Live chat feature coming soon!')" style="margin-top: 0.5rem;">Start Chat</button>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">❓</div>
+                    <h3>FAQ Center</h3>
+                    <p>Find quick answers to common questions</p>
+                    <a href="faq.html" class="btn-primary" style="display: inline-block; margin-top: 0.5rem; text-decoration: none;">Browse FAQs</a>
+                </div>
+            </section>
+
+            <!-- Contact Form -->
+            <section class="section">
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                    <div class="panel">
+                        <h2 style="margin-top: 0;">Send Us a Message</h2>
+                        <p style="margin-bottom: 1.5rem;">Fill out the form and we'll get back to you as soon as possible.</p>
+                        
+                        <form id="contactForm" aria-label="Contact form">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required>
+
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="john@example.com" required>
+
+                            <label for="contact">Phone Number (Optional)</label>
+                            <input type="tel" id="contact" name="contact" placeholder="+1 (555) 123-4567">
+
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem; margin-bottom: 1rem; font-family: inherit;">
+                                <option value="">Select a topic...</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="account">Account Help</option>
+                                <option value="feedback">General Feedback</option>
+                                <option value="other">Other</option>
+                            </select>
+
+                            <label for="message">Your Message *</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+
+                            <button type="submit" class="btn-primary" style="width: 100%; padding: 0.875rem;">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <div class="panel" style="background: var(--brand-light); border-left: 4px solid var(--brand);">
+                            <h3 style="margin-top: 0;">📍 Office Hours</h3>
+                            <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM EST</p>
+                            <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM EST</p>
+                            <p><strong>Sunday:</strong> Closed</p>
+                        </div>
+
+                        <div class="panel" style="margin-top: 1.5rem; background: var(--accent-light); border-left: 4px solid var(--accent);">
+                            <h3 style="margin-top: 0;">📝 Share Your Feedback</h3>
+                            <p>Help us improve NutriNourish! Fill out our quick feedback form to share your thoughts and suggestions.</p>
+                            <a href="https://docs.google.com/forms/d/1wee_dfJX9ofbOKC8v4IQal2tXClmPQzUovv07u4E_HA/edit" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display: inline-block; margin-top: 0.5rem; text-decoration: none;">Open Feedback Form</a>
+                        </div>
+
+                        <div class="card" style="margin-top: 1.5rem;">
+                            <h3 style="margin-top: 0;">🔒 Privacy Note</h3>
+                            <p style="font-size: 0.9rem; color: #666;">Your information is safe with us. We'll only use your contact details to respond to your inquiry and never share them with third parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Resources -->
+            <section class="section panel" style="text-align: center;">
+                <h2 class="section-title">Need Immediate Help?</h2>
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div>
+                        <h4>📚 User Guide</h4>
+                        <p>Learn how to use all features</p>
+                        <a href="features.html" style="color: var(--brand); font-weight: 600;">View Guide →</a>
+                    </div>
+                    <div>
+                        <h4>🍽️ Recipe Tips</h4>
+                        <p>Explore our recipe collection</p>
+                        <a href="recipe.html" style="color: var(--brand); font-weight: 600;">Browse Recipes →</a>
+                    </div>
+                    <div>
+                        <h4>📊 Start Tracking</h4>
+                        <p>Jump right into logging meals</p>
+                        <a href="nutri.html" style="color: var(--brand); font-weight: 600;">Open Tracker →</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="footer__inner">
+                <strong>NutriNourish</strong>
+                <div class="footer__links">
+                    <a href="welcome.html">Home</a>
+                    <a href="nutri.html">Tracker</a>
+                    <a href="faq.html">FAQs</a>
+                </div>
+                <span>&copy; <span data-year></span> NutriNourish</span>
+            </div>
+        </footer>
+
+        <script src="../assets/js/site.js"></script>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Thank you for your message! We'll get back to you soon.");
+        });
+    </script>
+</body>
+</html>

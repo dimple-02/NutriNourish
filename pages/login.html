@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NutriNourish</title>
+    <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="top-nav__inner">
+            <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                <span class="nav-toggle__line"></span>
+            </button>
+            <ul class="nav-links" data-nav-links>
+                <li><a href="welcome.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page">
+        <section class="hero" style="min-height: 60vh; align-items: center;">
+            <div style="max-width: 500px; margin: 0 auto; width: 100%;">
+                <div class="panel" style="text-align: center;">
+                    <p class="eyebrow">Welcome Back</p>
+                    <h1 style="margin-bottom: 0.5rem;">Login to Your Account</h1>
+                    <p class="lead" style="margin-bottom: 2rem;">Access your nutrition dashboard and track your progress.</p>
+                    
+                    <form action="features.html" class="login-form" style="text-align: left;">
+                        <label for="login-email">Email Address</label>
+                        <input id="login-email" type="email" placeholder="your.email@example.com" required>
+                        
+                        <label for="login-password">Password</label>
+                        <input id="login-password" type="password" placeholder="Enter your password" required>
+                        
+                        <div class="text" style="margin-bottom: 1rem; text-align: right;">
+                            <a href="#" id="forgot-password">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 0.875rem;">Login</button>
+                    </form>
+                    
+                    <p style="margin-top: 1.5rem; text-align: center;">
+                        Don't have an account? <a href="signup.html" style="color: var(--brand); font-weight: 600;">Sign up here</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <strong>NutriNourish</strong>
+            <div class="footer__links">
+                <a href="recipe.html">Recipe Book</a>
+                <a href="faq.html">FAQs</a>
+            </div>
+            <span>&copy; <span data-year></span> NutriNourish</span>
+        </div>
+    </footer>
+    <script src="../assets/js/site.js"></script>
+    <script>
+        // Forgot password handler
+        document.getElementById('forgot-password')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            if (email) {
+                alert(`Password reset link would be sent to: ${email}`);
+            } else {
+                alert('Please enter your email address first.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water & Exercise Tracker - NutriNourish</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="tracker-health.html" aria-current="page">Health Tracker</a></li>
+        <li><a href="nutri.html">Nutrition</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero motion-in">
+      <div style="text-align: center;">
+        <p class="eyebrow">Beyond Nutrition</p>
+        <h1>Water & Exercise Tracker</h1>
+        <p class="lead">Stay hydrated and track your fitness to complement your nutrition goals.</p>
+      </div>
+    </section>
+
+    <!-- Water Tracker -->
+    <section class="section">
+      <h2 class="section-title">💧 Daily Water Intake</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <!-- Water Log -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">Today's Water</h3>
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="flex: 1;">
+              <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: #64748b;">Consumed</p>
+              <div style="font-size: 2rem; font-weight: bold; color: #3b82f6;" id="waterConsumed">0</div>
+              <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">ml</p>
+            </div>
+            <div style="flex: 1;">
+              <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: #64748b;">Daily Goal</p>
+              <div style="font-size: 2rem; font-weight: bold; color: #10b981;" id="waterGoal">2000</div>
+              <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">ml</p>
+            </div>
+          </div>
+
+          <!-- Quick add buttons -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <button onclick="addWater(250)" class="btn btn-secondary" style="font-size: 0.9rem;">+ 250 ml</button>
+            <button onclick="addWater(500)" class="btn btn-secondary" style="font-size: 0.9rem;">+ 500 ml</button>
+            <button onclick="addWater(1)" class="btn btn-secondary" style="font-size: 0.9rem;">+ 1 Glass</button>
+            <button onclick="addWater(750)" class="btn btn-secondary" style="font-size: 0.9rem;">+ 750 ml</button>
+          </div>
+
+          <!-- Custom amount -->
+          <div style="display: grid; grid-template-columns: 1fr auto; gap: 0.75rem;">
+            <input type="number" id="customWaterAmount" placeholder="Custom amount (ml)" min="0">
+            <button onclick="addCustomWater()" class="btn btn-primary">Add</button>
+          </div>
+
+          <!-- Water Log for today -->
+          <div style="margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+            <p style="margin-top: 0; font-size: 0.9rem; font-weight: 600; color: #64748b;">Today's Entries</p>
+            <ul id="waterLog" style="list-style: none; padding: 0; max-height: 300px; overflow-y: auto;">
+              <li style="color: #94a3b8;">No water logged yet</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Stats & Progress -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">📊 Water Stats</h3>
+          <div style="margin-y: 1.5rem;">
+            <!-- Progress bar -->
+            <div style="margin-bottom: 2rem;">
+              <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: #64748b;">Today's Progress</p>
+              <div style="background: #e2e8f0; border-radius: 9999px; height: 12px; overflow: hidden;">
+                <div id="waterProgress" style="background: linear-gradient(90deg, #3b82f6, #06b6d4); height: 100%; width: 0%; transition: width 0.3s;"></div>
+              </div>
+              <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #94a3b8;" id="waterPercent">0%</p>
+            </div>
+
+            <!-- Weekly stats -->
+            <div>
+              <p style="margin: 0 0 1rem 0; font-size: 0.9rem; font-weight: 600; color: #64748b;">This Week</p>
+              <ul style="list-style: none; padding: 0;">
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Mon</span>
+                  <span class="weekly-water" data-day="0">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Tue</span>
+                  <span class="weekly-water" data-day="1">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Wed</span>
+                  <span class="weekly-water" data-day="2">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Thu</span>
+                  <span class="weekly-water" data-day="3">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Fri</span>
+                  <span class="weekly-water" data-day="4">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0;">
+                  <span>Sat</span>
+                  <span class="weekly-water" data-day="5">-</span>
+                </li>
+                <li style="padding: 0.5rem 0; display: flex; justify-content: space-between;">
+                  <span>Sun</span>
+                  <span class="weekly-water" data-day="6">-</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Goal settings -->
+          <button onclick="openWaterSettings()" style="margin-top: 1.5rem; width: 100%; padding: 0.75rem; border: 1px solid var(--brand); background: white; color: var(--brand); border-radius: 0.375rem; cursor: pointer; font-weight: 600;">⚙️ Set Daily Goal</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exercise Tracker -->
+    <section class="section">
+      <h2 class="section-title">💪 Exercise Tracker</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <!-- Add Exercise -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">Log Exercise</h3>
+          <div style="display: grid; gap: 1rem;">
+            <div>
+              <label for="exerciseType">Exercise Type</label>
+              <select id="exerciseType" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+                <option value="">Select type...</option>
+                <option value="cardio">🏃 Cardio (Running, Cycling)</option>
+                <option value="strength">🏋️ Strength Training</option>
+                <option value="yoga">🧘 Yoga / Flexibility</option>
+                <option value="sports">⚽ Sports</option>
+                <option value="walks">🚶 Walking</option>
+                <option value="other">📌 Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="exerciseDuration">Duration (minutes)</label>
+              <input type="number" id="exerciseDuration" placeholder="30" min="1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="exerciseIntensity">Intensity</label>
+              <select id="exerciseIntensity" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+                <option value="light">🟢 Light</option>
+                <option value="moderate" selected>🟡 Moderate</option>
+                <option value="intense">🔴 Intense</option>
+              </select>
+            </div>
+            <div>
+              <label for="exerciseNotes">Notes</label>
+              <textarea id="exerciseNotes" placeholder="How did you feel? Any notes?" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; resize: vertical; height: 80px;"></textarea>
+            </div>
+            <button onclick="addExercise()" class="btn btn-primary">✅ Log Exercise</button>
+          </div>
+        </div>
+
+        <!-- Exercise Summary -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">Today's Activity</h3>
+          <div style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f97316;">
+              <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: #64748b;">Total Time Exercised</p>
+              <h2 style="margin: 0; color: #f97316;" id="totalTime">0</h2>
+              <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">minutes</p>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05)); padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #a855f7;">
+              <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: #64748b;">Est. Calories Burned</p>
+              <h2 style="margin: 0; color: #a855f7;" id="calBurned">0</h2>
+              <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">cal</p>
+            </div>
+          </div>
+
+          <!-- Exercise log -->
+          <div>
+            <p style="margin: 0 0 1rem 0; font-size: 0.9rem; font-weight: 600; color: #64748b;">Today's Workouts</p>
+            <ul id="exerciseLog" style="list-style: none; padding: 0; max-height: 300px; overflow-y: auto;">
+              <li style="color: #94a3b8;">No exercises logged yet</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly Overview -->
+    <section class="section">
+      <h2 class="section-title">📈 Weekly Overview</h2>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+        <div class="panel" style="text-align: center; background: var(--brand-light); border-left: 4px solid var(--brand);">
+          <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #64748b;">Avg Water/Day</p>
+          <h3 style="margin: 0; color: var(--brand);" id="avgWater">-</h3>
+        </div>
+        <div class="panel" style="text-align: center; background: var(--accent-light); border-left: 4px solid var(--accent);">
+          <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #64748b;">Workouts</p>
+          <h3 style="margin: 0; color: var(--accent);" id="weekWorkouts">0</h3>
+        </div>
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05)); border-left: 4px solid #f97316;">
+          <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #64748b;">Avg Duration</p>
+          <h3 style="margin: 0; color: #f97316;" id="avgDuration">-</h3>
+        </div>
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05)); border-left: 4px solid #a855f7;">
+          <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #64748b;">Week Calories</p>
+          <h3 style="margin: 0; color: #a855f7;" id="weekCalories">0</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action buttons -->
+    <section class="section" style="text-align: center;">
+      <div class="stack" style="flex-direction: row; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="dashboard.html" class="btn btn-primary">📊 View Full Dashboard</a>
+        <a href="nutri.html" class="btn btn-secondary">🍎 Log Meal</a>
+        <button onclick="resetHealthData()" class="btn" style="background: #fee2e2; color: #991b1b;">🔄 Clear Data</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="nutri.html">Tracker</a>
+        <a href="faq.html">FAQs</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+
+  <!-- Water Goal Modal -->
+  <div id="waterSettingsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="panel" style="max-width: 400px; width: 90%;">
+      <h2 style="margin-top: 0;">Set Daily Water Goal</h2>
+      <div style="display: grid; gap: 1rem;">
+        <div>
+          <label for="newWaterGoal">Daily Goal (ml)</label>
+          <input type="number" id="newWaterGoal" value="2000" min="500" max="5000" step="250">
+        </div>
+        <p style="margin: 0; font-size: 0.9rem; color: #64748b;">
+          💡 Recommended: 2000ml (8 glasses) for average person. Adjust based on activity level.
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <button onclick="saveWaterGoal()" class="btn btn-primary">Save</button>
+          <button onclick="closeWaterSettings()" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/health-tracker.js"></script>
+</body>
+</html>

@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - NutriNourish</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/site.css">
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .faq-hero h1 {
+            color: white;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        
+        .faq-hero p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .faq-search {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .faq-search input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 1.25rem;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .faq-search i {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.25rem;
+        }
+        
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .faq-category {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .faq-category:hover {
+            border-color: var(--brand);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(15, 118, 110, 0.15);
+        }
+        
+        .faq-category.active {
+            background: linear-gradient(135deg, var(--brand) 0%, #14b8a6 100%);
+            border-color: var(--brand);
+            color: white;
+        }
+        
+        .faq-category-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .faq-category-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: block;
+        }
+        
+        .faq-section {
+            display: none;
+        }
+        
+        .faq-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .faq-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            gap: 1rem;
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            flex: 1;
+        }
+        
+        .faq-icon {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--brand) 0%, #14b8a6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        
+        .faq-item.open .faq-answer {
+            max-height: 1000px;
+            padding: 0 1.5rem 1.5rem;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+           color: #4b5563;
+        }
+        
+        .faq-answer ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+        
+        .faq-answer strong {
+            color: var(--text);
+        }
+        
+        .faq-popular {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .faq-popular h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .faq-popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .faq-popular-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-popular-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        
+        .faq-popular-item h4 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+            color: var(--brand);
+        }
+        
+        .faq-popular-item p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        .faq-cta {
+            background: linear-gradient(135deg, var(--brand) 0%, #14b8a6 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .faq-cta h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-cta p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+        }
+        
+        .faq-cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-white {
+            background: white;
+            color: var(--brand);
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.875rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-white:hover {
+            background: white;
+            color: var(--brand);
+        }
+        
+        @media (max-width: 768px) {
+            .faq-hero {
+                padding: 3rem 1.5rem;
+            }
+            
+            .faq-categories {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .faq-category {
+                padding: 1rem 0.5rem;
+            }
+            
+            .faq-category-icon {
+                font-size: 1.5rem;
+            }
+            
+            .faq-category-name {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="top-nav__inner">
+            <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                <span class="nav-toggle__line"></span>
+            </button>
+            <ul class="nav-links" data-nav-links>
+                <li><a href="welcome.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="nutrition-chart.html">Nutrition Chart</a></li>
+                <li><a href="recipe.html">Recipes</a></li>
+                <li><a href="faq.html" aria-current="page">FAQs</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="tracker-health.html">Health</a></li>
+                <li><a href="planner.html">Planner</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page">
+        <!-- Hero Section -->
+        <div class="faq-hero">
+            <h1>How Can We Help You?</h1>
+            <p>Search our knowledge base or browse by category to find answers to your questions</p>
+            <div class="faq-search">
+                <input type="text" id="faqSearch" placeholder="Search for answers..." aria-label="Search FAQ">
+                <i class="ri-search-line"></i>
+            </div>
+        </div>
+
+        <!-- Popular Questions -->
+        <section class="faq-popular">
+            <h2><i class="ri-fire-fill" style="color: #f59e0b;"></i> Popular Questions</h2>
+            <div class="faq-popular-grid">
+                <a href="#" class="faq-popular-item" data-category="getting-started" data-question="0">
+                    <h4>What is NutriNourish?</h4>
+                    <p>Learn about our nutrition platform and its features</p>
+                </a>
+                <a href="#" class="faq-popular-item" data-category="tracking" data-question="1">
+                    <h4>How does tracking help me?</h4>
+                    <p>Discover the benefits of nutrition tracking</p>
+                </a>
+                <a href="#" class="faq-popular-item" data-category="science" data-question="0">
+                    <h4>How many calories should I eat?</h4>
+                    <p>Find your daily calorie needs</p>
+                </a>
+                <a href="#" class="faq-popular-item" data-category="challenges" data-question="0">
+                    <h4>I'm always hungry. What to do?</h4>
+                    <p>Tips for managing hunger</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <div class="faq-categories">
+            <div class="faq-category active" data-category="getting-started">
+                <span class="faq-category-icon"><i class="ri-rocket-fill"></i></span>
+                <span class="faq-category-name">Getting Started</span>
+            </div>
+            <div class="faq-category" data-category="tracking">
+                <span class="faq-category-icon"><i class="ri-line-chart-fill"></i></span>
+                <span class="faq-category-name">Tracking</span>
+            </div>
+            <div class="faq-category" data-category="bmi">
+                <span class="faq-category-icon"><i class="ri-heart-pulse-fill"></i></span>
+                <span class="faq-category-name">BMI</span>
+            </div>
+            <div class="faq-category" data-category="recipes">
+                <span class="faq-category-icon"><i class="ri-restaurant-fill"></i></span>
+                <span class="faq-category-name">Recipes</span>
+            </div>
+            <div class="faq-category" data-category="science">
+                <span class="faq-category-icon"><i class="ri-flask-fill"></i></span>
+                <span class="faq-category-name">Science</span>
+            </div>
+            <div class="faq-category" data-category="meal-planning">
+                <span class="faq-category-icon"><i class="ri-calendar-check-fill"></i></span>
+                <span class="faq-category-name">Meal Planning</span>
+            </div>
+            <div class="faq-category" data-category="challenges">
+                <span class="faq-category-icon"><i class="ri-trophy-fill"></i></span>
+                <span class="faq-category-name">Challenges</span>
+            </div>
+            <div class="faq-category" data-category="privacy">
+                <span class="faq-category-icon"><i class="ri-shield-check-fill"></i></span>
+                <span class="faq-category-name">Privacy</span>
+            </div>
+            <div class="faq-category" data-category="technical">
+                <span class="faq-category-icon"><i class="ri-tools-fill"></i></span>
+                <span class="faq-category-name">Technical</span>
+            </div>
+        </div>
+
+        <!-- FAQ Sections -->
+        <div id="faqContent">
+            <!-- Getting Started -->
+            <div class="faq-section active" data-category="getting-started">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is NutriNourish?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>NutriNourish is a comprehensive nutrition platform that helps you track your meals, calculate BMI, access healthy recipes, and understand your dietary patterns. Our tools are designed to make nutrition management simple and sustainable.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I need to create an account?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can use most features without an account. However, creating a free account allows you to save your nutrition data, track progress over time, and access personalized recommendations. <a href="signup.html">Sign up here</a> to get started.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is NutriNourish free to use?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All core features including nutrition tracking, BMI calculator, and recipe access are completely free. We believe everyone should have access to quality nutrition tools.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrition Tracking -->
+            <div class="faq-section" data-category="tracking">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is a Nutrition Tracker?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A nutrition tracker is a digital tool that helps you record what you eat and drink throughout the day. It logs food items, portion sizes, calories, macronutrients (protein, carbs, fats), and helps you understand your eating patterns better.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How does nutrition tracking help me?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Tracking your nutrition provides several benefits:</p>
+                        <ul>
+                            <li><strong>Awareness:</strong> See exactly what you're eating each day</li>
+                            <li><strong>Identify patterns:</strong> Discover habits that help or hurt your goals</li>
+                            <li><strong>Meet nutritional needs:</strong> Ensure you're getting enough protein, vitamins, etc.</li>
+                            <li><strong>Weight management:</strong> Adjust calorie intake to lose, gain, or maintain weight</li>
+                            <li><strong>Better health:</strong> Make informed decisions based on real data</li>
+                            <li><strong>Accountability:</strong> Stay consistent with your nutrition goals</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How accurate does my tracking need to be?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Aim for consistency over perfection. Even rough estimates provide valuable insights. For best results, weigh portions when possible and be honest about what you eat. Tracking 80% accurately is better than not tracking at all.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I track macronutrients (protein, carbs, fats)?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Our advanced nutrition tracker allows you to log all macronutrients along with calories. You'll see running totals for the day so you know exactly where you stand with your macro goals.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BMI Calculator -->
+            <div class="faq-section" data-category="bmi">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is BMI and how does it work?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>BMI (Body Mass Index) is a screening tool that estimates body fat based on your height and weight. It's calculated by dividing weight by height squared.</p>
+                        <p><strong>Formula:</strong> BMI = weight (kg) / height (m)�</p>
+                        <p>For imperial units: BMI = (weight in pounds � 703) / (height in inches)�</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What do BMI categories mean?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>BMI ranges are interpreted as follows:</p>
+                        <ul>
+                            <li><strong>Below 18.5:</strong> Underweight</li>
+                            <li><strong>18.5 - 24.9:</strong> Normal weight</li>
+                            <li><strong>25.0 - 29.9:</strong> Overweight</li>
+                            <li><strong>30.0 and above:</strong> Obese</li>
+                        </ul>
+                        <p><em>Note: BMI is a screening tool, not a diagnostic measure. Consult a healthcare provider for personalized advice.</em></p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is BMI accurate for everyone?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>BMI is a useful general indicator but has limitations. It doesn't account for muscle mass, bone density, age, or gender. Athletes with high muscle mass may have high BMI scores despite low body fat. Use BMI as one tool among many to assess health.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipes & Diet -->
+            <div class="faq-section" data-category="recipes">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What types of recipes do you offer?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer quick, nutrient-dense recipes for all meals�breakfast bowls, protein-packed lunches, healthy dinners, and smart snacks. Our recipes focus on whole foods, balanced macros, and manageable prep times. All recipes include ingredient lists, instructions, and nutritional information.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you have recipes for specific diets?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Our recipe collection includes options for various dietary approaches including vegetarian, vegan, high-protein, low-carb, and balanced eating. Each recipe is tagged so you can filter by your dietary preferences.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are diet guides?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our diet guides provide meal strategy frameworks like the Balanced Plate method, High Protein plans, and Light Evening approaches. These aren't restrictive diets�they're flexible templates you can adapt to your lifestyle and food preferences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrition Science -->
+            <div class="faq-section" data-category="science">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How many calories should I eat per day?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Calorie needs vary based on age, gender, height, weight, and activity level. General guidelines:</p>
+                        <ul>
+                            <li><strong>Sedentary women:</strong> 1,600-2,000 calories/day</li>
+                            <li><strong>Active women:</strong> 2,000-2,400 calories/day</li>
+                            <li><strong>Sedentary men:</strong> 2,000-2,400 calories/day</li>
+                            <li><strong>Active men:</strong> 2,400-3,000 calories/day</li>
+                        </ul>
+                        <p><strong>Tip:</strong> Use our <a href="nutri.html">nutrition tracker</a> to monitor your intake and see how you feel.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are macronutrients and why do they matter?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Macronutrients are the three main nutrients your body needs in large amounts:</p>
+                        <ul>
+                            <li><strong>Protein (4 cal/g):</strong> Builds and repairs muscle, supports immune function</li>
+                            <li><strong>Carbohydrates (4 cal/g):</strong> Primary energy source for brain and muscles</li>
+                            <li><strong>Fats (9 cal/g):</strong> Supports hormone production and nutrient absorption</li>
+                        </ul>
+                        <p>A balanced ratio might be 40% carbs, 30% protein, 30% fats, but this varies based on your goals.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What's the difference between good and bad carbs?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Complex carbs (good):</strong> Whole grains, oats, quinoa, sweet potatoes, legumes. These digest slowly and provide sustained energy.</p>
+                        <p><strong>Simple carbs (limit):</strong> White bread, sugary snacks, soda. These spike blood sugar quickly.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much protein do I really need?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Protein needs depend on your activity level:</p>
+                        <ul>
+                            <li><strong>Sedentary:</strong> 0.8g per kg body weight</li>
+                            <li><strong>Active:</strong> 1.2-1.6g per kg</li>
+                            <li><strong>Athletes:</strong> 1.6-2.2g per kg</li>
+                        </ul>
+                        <p><strong>Example:</strong> A 70kg active person needs 84-112g protein daily.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Should I avoid fats if I want to lose weight?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No! Healthy fats are essential. Focus on unsaturated fats (avocados, nuts, olive oil, fatty fish). Fats keep you full longer and help with diet adherence. Aim for 20-35% of daily calories from healthy fats.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What's the importance of fiber in my diet?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Fiber is crucial for digestive health, blood sugar control, and satiety. Benefits:</p>
+                        <ul>
+                            <li>Promotes healthy digestion</li>
+                            <li>Controls blood sugar levels</li>
+                            <li>Lowers cholesterol</li>
+                            <li>Keeps you feeling full</li>
+                        </ul>
+                        <p><strong>Daily target:</strong> 25-30g for women, 30-38g for men.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meal Planning -->
+            <div class="faq-section" data-category="meal-planning">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I start meal planning as a beginner?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Simple 4-step approach:</strong></p>
+                        <ol>
+                            <li>Start small: Plan 3-4 dinners for the week</li>
+                            <li>Pick simple recipes from our <a href="recipe.html">collection</a></li>
+                            <li>Make a shopping list</li>
+                            <li>Prep on Sunday: wash vegetables, cook grains</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What should I meal prep for the week?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Best foods to prep:</strong></p>
+                        <ul>
+                            <li><strong>Proteins:</strong> Grilled chicken, hard-boiled eggs, baked tofu</li>
+                            <li><strong>Grains:</strong> Brown rice, quinoa (stays good 4-5 days)</li>
+                            <li><strong>Vegetables:</strong> Roasted broccoli, bell peppers, sweet potatoes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long can I store meal prepped food?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Storage times:</strong></p>
+                        <ul>
+                            <li>Cooked chicken/meat: 3-4 days</li>
+                            <li>Cooked fish: 2-3 days</li>
+                            <li>Cooked grains: 4-6 days</li>
+                            <li>Cooked vegetables: 4-5 days</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are quick healthy breakfast ideas?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>5-minute breakfasts:</strong></p>
+                        <ul>
+                            <li>Overnight oats with berries and nuts</li>
+                            <li>Greek yogurt with granola</li>
+                            <li>Scrambled eggs with avocado toast</li>
+                            <li>Protein smoothie</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I eat healthy when eating out?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Smart strategies:</strong></p>
+                        <ul>
+                            <li>Check menu online beforehand</li>
+                            <li>Ask for dressings on the side</li>
+                            <li>Choose grilled over fried</li>
+                            <li>Substitute fries for vegetables</li>
+                            <li>Take half home for tomorrow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenges -->
+            <div class="faq-section" data-category="challenges">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>I'm always hungry. What should I do?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Constant hunger usually means you need to adjust:</p>
+                        <ul>
+                            <li><strong>Increase protein:</strong> Aim for 25-30g per meal</li>
+                            <li><strong>Add fiber:</strong> Vegetables and whole grains</li>
+                            <li><strong>Don't skip meals:</strong> Eat every 3-4 hours</li>
+                            <li><strong>Drink water:</strong> 8 glasses daily</li>
+                            <li><strong>Check calories:</strong> You might be eating too little</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I stop late-night snacking?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Strategies:</strong></p>
+                        <ul>
+                            <li>Eat a larger, protein-rich dinner</li>
+                            <li>Brush teeth after dinner</li>
+                            <li>Drink herbal tea</li>
+                            <li>Keep tempting snacks out</li>
+                            <li>Address root cause: boredom or stress</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>I don't have time to cook. Any tips?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Time-saving hacks:</strong></p>
+                        <ul>
+                            <li>Buy pre-cut vegetables</li>
+                            <li>Use a slow cooker</li>
+                            <li>Batch cook on weekends</li>
+                            <li>Try 5-ingredient recipes</li>
+                            <li>Double recipes for leftovers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I handle social situations?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Balance is key:</strong></p>
+                        <ul>
+                            <li>Don't arrive starving</li>
+                            <li>Fill plate with protein and vegetables first</li>
+                            <li>Enjoy special foods guilt-free</li>
+                            <li>Return to regular habits next day</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What if I miss tracking a day?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Just resume your normal habits the next meal or day. One day doesn't erase weeks of progress. Don't try to "make up" for it by restricting. Consistency over time matters more than perfection.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy -->
+            <div class="faq-section" data-category="privacy">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my nutrition data private and secure?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Your privacy is our priority:</p>
+                        <ul>
+                            <li><strong>Local storage:</strong> Without an account, data stays on your device</li>
+                            <li><strong>Encryption:</strong> Account data is encrypted</li>
+                            <li><strong>No selling data:</strong> We never sell your information</li>
+                            <li><strong>Limited access:</strong> Only you can see your logs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I delete my account permanently?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes. Go to Settings ? Account ? Delete Account. This permanently removes all your data within 30 days. Export any data you want to keep first.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Who can see my tracking data?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Only you. We don't share your logs unless you export and share them yourself. Support may access data only when you request help with permission.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical -->
+            <div class="faq-section" data-category="technical">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I get support?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Use our <a href="contact.html">Contact page</a> to send a message. We respond within 24-48 hours.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my data saved automatically?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, your nutrition tracker data is automatically saved in your browser's local storage. For cross-device syncing, create an account.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I export my data?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>This feature is coming soon! We're working on CSV and PDF export options.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Which browsers are supported?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Chrome, Firefox, Safari, and Edge. Mobile browsers are fully supported.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Tracker isn't saving data. What to do?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Troubleshooting:</strong></p>
+                        <ol>
+                            <li>Don't use Private/Incognito mode</li>
+                            <li>Enable browser cookies</li>
+                            <li>Clear browser cache</li>
+                            <li>Try different browser</li>
+                            <li>Create an account for cloud storage</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I use NutriNourish on my phone?</h3>
+                        <div class="faq-icon"><i class="ri-add-line"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! NutriNourish is fully responsive. Visit on your phone's browser. Add to home screen for quick access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="faq-cta">
+            <h2>Still Have Questions?</h2>
+            <p>Can't find what you're looking for? Our support team is here to help.</p>
+            <div class="faq-cta-buttons">
+                <a href="contact.html" class="btn-white">Contact Support</a>
+                <a href="welcome.html" class="btn-outline-white">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <strong>NutriNourish</strong>
+            <div class="footer__links">
+                <a href="recipe.html">Recipes</a>
+                <a href="diet.html">Diet Guides</a>
+                <a href="about.html">About</a>
+            </div>
+            <span>&copy; <span data-year></span> NutriNourish</span>
+        </div>
+    </footer>
+
+    <script src="../assets/js/site.js"></script>
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle FAQ items
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    const item = this.parentElement;
+                    const wasOpen = item.classList.contains('open');
+                    
+                    // Close all items
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                    
+                    // Open clicked item if it wasn't open
+                    if (!wasOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+
+            // Category switching
+            document.querySelectorAll('.faq-category').forEach(category => {
+                category.addEventListener('click', function() {
+                    const targetCategory = this.dataset.category;
+                    
+                    // Update active category
+                    document.querySelectorAll('.faq-category').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    document.querySelectorAll('.faq-section').forEach(section => {
+                        section.classList.remove('active');
+                        if (section.dataset.category === targetCategory) {
+                            section.classList.add('active');
+                        }
+                    });
+                    
+                    // Close all FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('open'));
+                });
+            });
+
+            // Popular questions
+            document.querySelectorAll('.faq-popular-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.dataset.category;
+                    const questionIndex = parseInt(this.dataset.question);
+                    
+                    // Switch to category
+                    document.querySelector(`.faq-category[data-category="${category}"]`).click();
+                    
+                    // Open specific question
+                    setTimeout(() => {
+                        const section = document.querySelector(`.faq-section[data-category="${category}"]`);
+                        const questions = section.querySelectorAll('.faq-item');
+                        if (questions[questionIndex]) {
+                            questions[questionIndex].classList.add('open');
+                            questions[questionIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 100);
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('faqSearch');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                if (searchTerm.length < 2) {
+                    // Show all items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.style.display = 'block';
+                    });
+                    return;
+                }
+                
+                // Search through all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        // Highlight matches by opening them
+                        if (!item.classList.contains('open')) {
+                            item.classList.add('open');
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

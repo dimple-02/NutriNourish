@@ -1,0 +1,51 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing:  border-box ;
+    font-family: sans-serif;
+}
+body{
+    /* background-color:whitesmoke ; */
+ background-image: linear-gradient(to right top, #8bd090, #6ad3ae, #53d3cb, #55d0e2, #70cbf0);;
+
+}
+.card-container{
+    max-width: 80%;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 25px;
+
+
+}
+.card{
+    flex: 1;
+    background-color: white;
+    box-shadow: 10px 10px 10px palevioletred;
+    overflow: hidden;
+    transition: transform 0.3 ease-in-out;
+    border-radius: 20px;
+
+}
+.card:hover{
+    transform: scale(1.05);
+}
+.card img{
+    width: 100%;
+    height: auto;
+
+}
+card-content{
+    padding: 20px;
+}
+.card-content h3{
+color: black;
+font-size:17px;
+line-height: 1.6;
+}
+@media screen and (max-width: 768px) {
+    .card{
+        flex:100% ;
+    }
+}

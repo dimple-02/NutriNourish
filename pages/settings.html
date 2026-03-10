@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - NutriNourish</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body id="app-body">
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="settings.html" aria-current="page">Settings</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero motion-in">
+      <div style="text-align: center;">
+        <p class="eyebrow">Personalize Your Experience</p>
+        <h1>Settings & Preferences</h1>
+        <p class="lead">Customize NutriNourish to fit your needs and preferences.</p>
+      </div>
+    </section>
+
+    <!-- Display Settings -->
+    <section class="section">
+      <h2 class="section-title">🎨 Display Settings</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <!-- Theme -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">🌙 Theme</h3>
+          <p style="color: #64748b; margin-bottom: 1rem;">Choose your preferred color scheme</p>
+          
+          <div style="display: grid; gap: 1rem;">
+            <label style="display: flex; align-items: center; cursor: pointer; padding: 1rem; background: #f8fafc; border-radius: 0.375rem; border: 2px solid #e2e8f0; transition: all 0.3s;">
+              <input type="radio" name="theme" value="light" id="themeLight" style="margin-right: 1rem;">
+              <span>☀️ <strong>Light</strong></span>
+            </label>
+            
+            <label style="display: flex; align-items: center; cursor: pointer; padding: 1rem; background: #f8fafc; border-radius: 0.375rem; border: 2px solid #e2e8f0; transition: all 0.3s;">
+              <input type="radio" name="theme" value="dark" id="themeDark" style="margin-right: 1rem;">
+              <span>🌙 <strong>Dark</strong></span>
+            </label>
+            
+            <label style="display: flex; align-items: center; cursor: pointer; padding: 1rem; background: #f8fafc; border-radius: 0.375rem; border: 2px solid #e2e8f0; transition: all 0.3s;">
+              <input type="radio" name="theme" value="system" id="themeSystem" checked style="margin-right: 1rem;">
+              <span>⚙️ <strong>System</strong></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Color Scheme -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">🎯 Color Scheme</h3>
+          <p style="color: #64748b; margin-bottom: 1rem;">Select your preferred brand color</p>
+          
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+            <button class="color-btn" data-color="brand" onclick="setColorScheme('brand')" style="background: #0f766e; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Teal</strong></button>
+            <button class="color-btn" data-color="accent" onclick="setColorScheme('accent')" style="background: #ea580c; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Orange</strong></button>
+            <button class="color-btn" data-color="purple" onclick="setColorScheme('purple')" style="background: #7c3aed; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Purple</strong></button>
+            <button class="color-btn" data-color="blue" onclick="setColorScheme('blue')" style="background: #0284c7; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Blue</strong></button>
+            <button class="color-btn" data-color="pink" onclick="setColorScheme('pink')" style="background: #ec4899; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Pink</strong></button>
+            <button class="color-btn" data-color="green" onclick="setColorScheme('green')" style="background: #16a34a; color: white; padding: 1rem; border-radius: 0.375rem; border: 3px solid transparent; cursor: pointer;"><strong>Green</strong></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notification Settings -->
+    <section class="section">
+      <h2 class="section-title">🔔 Notifications & Reminders</h2>
+      <div class="panel">
+        <div style="display: grid; gap: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
+            <div>
+              <h4 style="margin: 0 0 0.25rem 0;">💧 Water Reminders</h4>
+              <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Get reminded to drink water</p>
+            </div>
+            <input type="checkbox" id="waterReminder" checked style="width: 20px; height: 20px; cursor: pointer;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
+            <div>
+              <h4 style="margin: 0 0 0.25rem 0;">🍽️ Meal Reminders</h4>
+              <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Get reminded to log meals</p>
+            </div>
+            <input type="checkbox" id="mealReminder" checked style="width: 20px; height: 20px; cursor: pointer;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
+            <div>
+              <h4 style="margin: 0 0 0.25rem 0;">💪 Exercise Reminders</h4>
+              <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Get reminded to exercise</p>
+            </div>
+            <input type="checkbox" id="exerciseReminder" style="width: 20px; height: 20px; cursor: pointer;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h4 style="margin: 0 0 0.25rem 0;">📊 Daily Summary</h4>
+              <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Daily summary of nutrition intake</p>
+            </div>
+            <input type="checkbox" id="dailySummary" checked style="width: 20px; height: 20px; cursor: pointer;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Profile -->
+    <section class="section">
+      <h2 class="section-title">👤 User Profile</h2>
+      <div class="panel">
+        <div style="display: grid; gap: 1.5rem;">
+          <div>
+            <label for="userName">Name</label>
+            <input type="text" id="userName" placeholder="Your name" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <label for="userAge">Age</label>
+              <input type="number" id="userAge" placeholder="Your age" min="13" max="120" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="userGender">Gender</label>
+              <select id="userGender" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+                <option value="">Select...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <label for="userWeight">Current Weight (kg)</label>
+              <input type="number" id="userWeight" placeholder="Weight in kg" step="0.1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="userHeight">Height (cm)</label>
+              <input type="number" id="userHeight" placeholder="Height in cm" step="0.1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+          </div>
+
+          <div>
+            <label for="userGoal">Fitness Goal</label>
+            <select id="userGoal" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+              <option value="">Select your goal...</option>
+              <option value="weight-loss">💪 Weight Loss</option>
+              <option value="muscle-gain">🏋️ Muscle Gain</option>
+              <option value="maintenance">⚖️ Maintenance</option>
+              <option value="general-health">❤️ General Health</option>
+            </select>
+          </div>
+
+          <button onclick="saveProfile()" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">💾 Save Profile</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Favorites & Quick Add -->
+    <section class="section">
+      <h2 class="section-title">⭐ Favorite Foods & Meals</h2>
+      <div class="panel">
+        <p style="color: #64748b; margin-bottom: 1rem;">Create shortcuts for frequently logged meals and foods.</p>
+        
+        <div style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label for="favoriteName">Meal Name</label>
+            <input type="text" id="favoriteName" placeholder="e.g., My Morning Smoothie" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            <div>
+              <label for="favoriteCalories">Calories</label>
+              <input type="number" id="favoriteCalories" placeholder="0" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="favoriteProtein">Protein (g)</label>
+              <input type="number" id="favoriteProtein" placeholder="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="favoriteCarbs">Carbs (g)</label>
+              <input type="number" id="favoriteCarbs" placeholder="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+            <div>
+              <label for="favoriteFat">Fat (g)</label>
+              <input type="number" id="favoriteFat" placeholder="0" step="0.1" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem;">
+            </div>
+          </div>
+
+          <button onclick="addFavorite()" class="btn btn-primary">⭐ Save as Favorite</button>
+        </div>
+
+        <div>
+          <h4 style="margin: 1rem 0 1rem 0;">Your Favorites</h4>
+          <div id="favoritesList" style="display: grid; gap: 0.75rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data & Privacy -->
+    <section class="section">
+      <h2 class="section-title">📊 Data & Privacy</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div class="panel">
+          <h3 style="margin-top: 0;">💾 Export Data</h3>
+          <p style="color: #64748b; margin-bottom: 1.5rem;">Download all your logged data as CSV</p>
+          <button onclick="exportAllData()" class="btn btn-primary" style="width: 100%;">📥 Export All Data</button>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-top: 0;">🗑️ Danger Zone</h3>
+          <p style="color: #64748b; margin-bottom: 1.5rem;">Permanently delete all your data</p>
+          <button onclick="deleteAllData()" class="btn" style="width: 100%; background: #fee2e2; color: #991b1b; border: none; padding: 0.75rem; border-radius: 0.375rem; cursor: pointer; font-weight: 600;">🔥 Delete Everything</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section">
+      <h2 class="section-title">ℹ️ About NutriNourish</h2>
+      <div class="panel">
+        <p><strong>Version:</strong> 3.0 (Enhanced)</p>
+        <p><strong>Last Updated:</strong> <span id="lastUpdate"></span></p>
+        <p style="margin-top: 1.5rem; color: #64748b;">NutriNourish is designed to help you track nutrition, maintain healthy habits, and achieve your fitness goals through simple, practical tools.</p>
+        <p style="color: #94a3b8; font-size: 0.9rem;">💡 All your data is stored locally in your browser. We never send it to any server.</p>
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="contact.html" class="btn btn-secondary">📧 Contact Us</a>
+          <a href="faq.html" class="btn btn-secondary">❓ FAQs</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Save All Settings -->
+    <section class="section" style="text-align: center;">
+      <button onclick="saveAllSettings()" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.05rem;">💾 Save All Settings</button>
+      <p style="margin-top: 1rem; color: #64748b; font-size: 0.9rem;">Your settings will automatically sync across all pages.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="welcome.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="nutri.html">Tracker</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/settings.js"></script>
+</body>
+</html>

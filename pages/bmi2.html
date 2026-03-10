@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator - NutriNourish</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="bmi2.html" aria-current="page">BMI</a></li>
+        <li><a href="nutri.html">Tracker</a></li>
+        <li><a href="faq.html">FAQs</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="panel motion-in" style="max-width:760px; margin-inline:auto;">
+      <p class="eyebrow">Health Baseline</p>
+      <h1 style="margin-top:0;">BMI Calculator</h1>
+
+      <div class="unit-selection">
+        <h3>Select Units</h3>
+        <label><input type="radio" name="weightUnit" value="lbs" checked> Pounds (lbs)</label>
+        <label><input type="radio" name="weightUnit" value="kg"> Kilograms (kg)</label>
+        <br>
+        <label><input type="radio" name="heightUnit" value="feet" checked> Feet/Inches</label>
+        <label><input type="radio" name="heightUnit" value="meters"> Meters</label>
+      </div>
+
+      <div class="input-container">
+        <label for="weight">Weight</label>
+        <input type="number" id="weight" placeholder="Enter your weight" required>
+      </div>
+      <div class="input-container" id="heightFeetContainer">
+        <label for="heightFeet">Height (feet)</label>
+        <input type="number" id="heightFeet" placeholder="Feet" required>
+      </div>
+      <div class="input-container" id="heightInchesContainer">
+        <label for="heightInches">Height (inches)</label>
+        <input type="number" id="heightInches" placeholder="Inches" required>
+      </div>
+      <div class="input-container" id="heightMetersContainer" style="display:none;">
+        <label for="heightMeters">Height (meters)</label>
+        <input type="number" id="heightMeters" placeholder="Enter your height in meters" required>
+      </div>
+
+      <button id="calculateBtn" type="button">Calculate BMI</button>
+      <h2 id="result" style="margin-bottom:0.2rem;"></h2>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/bmi2.js"></script>
+</body>
+</html>

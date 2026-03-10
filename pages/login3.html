@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login - NutriNourish</title>
+    <link rel="stylesheet" href="../assets/css/site.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="login3.html" aria-current="page">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Welcome Back</p>
+        <h1>Access your nutrition dashboard</h1>
+        <p class="lead">Sign in to continue tracking meals and reviewing your progress. New here? Create an account in seconds.</p>
+      </div>
+
+      <div class="grid" style="gap:1rem;">
+        <div class="panel login-form">
+          <h2 style="margin-top:0;">Login</h2>
+          <form action="features.html">
+            <label for="login-email">Email</label>
+            <input id="login-email" type="email" placeholder="Enter your email" required>
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" placeholder="Enter your password" required>
+            <div class="text" style="margin-bottom:0.8rem;"><a href="#">Forgot password?</a></div>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+        <div class="panel signup-form">
+          <h2 style="margin-top:0;">Sign Up</h2>
+          <form action="features.html">
+            <label for="signup-name">Name</label>
+            <input id="signup-name" type="text" placeholder="Enter your name" required>
+            <label for="signup-email">Email</label>
+            <input id="signup-email" type="email" placeholder="Enter your email" required>
+            <label for="signup-password">Password</label>
+            <input id="signup-password" type="password" placeholder="Enter your password" required>
+            <input type="submit" value="Create Account">
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="welcome.html">Home</a>
+        <a href="contact.html">Support</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/login3.js"></script>
+</body>
+</html>

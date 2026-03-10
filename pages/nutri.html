@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nutrition Tracker - NutriNourish</title>
+        <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+        <nav class="top-nav">
+            <div class="top-nav__inner">
+                <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                    <span class="nav-toggle__line"></span>
+                </button>
+                <ul class="nav-links" data-nav-links>
+                    <li><a href="welcome.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="nutrition-chart.html">Nutrition Chart</a></li>
+                    <li><a href="recipe.html">Recipes</a></li>
+                    <li><a href="nutri.html" aria-current="page">Tracker</a></li>
+                    <li><a href="tracker-health.html">Health</a></li>
+                    <li><a href="planner.html">Planner</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="page">
+            <section class="panel">
+                <h1 style="margin-top:0;">Nutrition Log Tracker</h1>
+                <p class="lead">Add each meal entry and track your daily totals automatically.</p>
+                <form id="nutritionForm" class="form-card">
+                        <input type="text" id="meal" placeholder="Meal (e.g., Breakfast)" required>
+                        <input type="text" id="foodItem" placeholder="Food Item" required>
+                        <input type="text" id="servingSize" placeholder="Serving Size" required>
+                        <input type="number" id="calories" placeholder="Calories" required>
+                        <input type="number" id="protein" placeholder="Protein (g)" required>
+                        <input type="number" id="carbs" placeholder="Carbs (g)" required>
+                        <input type="number" id="fat" placeholder="Fat (g)" required>
+                        <button type="submit">Add Entry</button>
+                </form>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Meal</th>
+                            <th>Food Item</th>
+                            <th>Serving Size</th>
+                            <th>Calories</th>
+                            <th>Protein (g)</th>
+                            <th>Carbs (g)</th>
+                            <th>Fat (g)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nutritionTableBody"></tbody>
+                </table>
+
+                <div id="totalIntake" class="kpis" style="margin-top:1rem;">
+                    <div class="kpi"><span>Total Calories</span><strong id="totalCalories">0</strong></div>
+                    <div class="kpi"><span>Total Protein (g)</span><strong id="totalProtein">0</strong></div>
+                    <div class="kpi"><span>Total Carbs (g)</span><strong id="totalCarbs">0</strong></div>
+                    <div class="kpi"><span>Total Fat (g)</span><strong id="totalFat">0</strong></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer__inner">
+                <strong>NutriNourish</strong>
+                <div class="footer__links">
+                    <a href="nutrition.html">Quick Log</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <span>&copy; <span data-year></span> NutriNourish</span>
+            </div>
+        </footer>
+
+        <script src="../assets/js/site.js"></script>
+    <script src="../assets/js/nutri.js"></script>
+</body>
+</html>

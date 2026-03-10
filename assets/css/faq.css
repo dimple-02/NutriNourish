@@ -1,0 +1,171 @@
+:root{
+  --color-primary: rgb(81, 196, 224);
+  --color-text: #545d7a;
+  --color-white: #fff;
+  --color-title: #242e4c;
+  --color-background: #f7f8fb;
+  --color-border: #dae1f5;
+  
+  
+  --font-family: "Satoshi", sans-serif;
+  --fs-sm: 1.4rem;
+  --fs-md: 1.6rem;
+  --fs-lg: 2.2rem;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  
+  --transition: 0.4s ease-in-out; 
+  --shadow: 0px 60px 56px -12px rgba(9, 40, 163, 0.05); 
+  
+  }
+  
+  html {
+      font-size: 62.5%;
+    scroll-behavior: smooth;
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      
+  }
+  
+  body {
+    background-image: linear-gradient(to right bottom, #4ca9df, #4ebfd8, #78d1cb, #aae0c3, #d9ecc7);
+      font-family: var(--font-family);
+      color: var(--color-text);
+      font-size: var(--fs-md);
+      font-weight: var(--fw-regular);
+  }
+  
+  .container{ 
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+  
+  }
+  
+  .accordion__wrapper {
+      background-color: var(--color-white);
+      box-shadow: 10px 10px 10px black;
+      border-radius: 2.5rem;
+      width: 100%;
+      max-width: 60rem;
+      padding: 5rem;
+      margin-top: 50px;
+  }
+  
+  .accordion__title{
+      font-size: var(--fs-lg);
+      font-weight: var(--fw-bold);
+      color: var(--color-title);
+      text-align: center;
+      margin-bottom: 4rem;
+  }
+  
+  .accordion {
+      border-bottom: 0.1rem solid var(--color-border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+  }
+  
+  .accordion__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+  } 
+
+  .accordion__header:focus-visible {
+      outline: 0.3rem solid var(--color-primary);
+      outline-offset: 0.4rem;
+      border-radius: 0.8rem;
+  }
+  
+  .accordion__icon {
+      background-color: var(--color-primary);
+      width: 2.2rem;
+      height: 2.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      color: var(--color-white);
+      flex-shrink: 0;
+  }
+  
+  .accordion__question{
+      font-size: var(--fs-md);
+      font-weight: var(--fw-medium);
+      color: var(--color-title);
+  }
+  
+  .accordion__answer{
+      padding: 2rem 0;
+  }
+
+  .accordion__answer li {
+      margin-left: 1.8rem;
+      margin-bottom: 0.6rem;
+  }
+  
+  .accordion__content{
+      overflow: hidden;
+      height: 0;
+      transition: var(--transition);
+  }
+  
+  @media screen and (min-width: 580px) {
+      .accordion__wrapper {
+          padding: 5rem 8rem;
+      }
+  }
+  
+  
+  .container {
+      display: flex; /* Use flexbox for layout */
+     /* Align items at the start */
+  }
+  
+  .image-wrapper {
+      flex: 0 0 30%; /* Set the width of the image wrapper (30% of the container) */
+      padding-right: 20px; /* Add some space between the image and the accordion */
+  }
+  
+  .sidebar-image {
+      width: 600px; 
+      height: auto; 
+      border-radius: 8px; 
+      filter: drop-shadow(0px 0px 10px);
+  }
+
+  @media screen and (max-width: 980px) {
+      .container {
+          flex-direction: column;
+          padding: 1rem;
+      }
+
+      .image-wrapper {
+          flex: initial;
+          padding-right: 0;
+          margin-bottom: 1.5rem;
+      }
+
+      .sidebar-image {
+          width: min(100%, 42rem);
+      }
+  }
+
+/* Quick navigation hover effects */
+a[href^="#"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* Section scroll padding for fixed nav */
+[id] {
+    scroll-margin-top: 100px;
+}

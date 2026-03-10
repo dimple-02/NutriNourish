@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Chart - NutriNourish</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <style>
+    .nutrition-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: white;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .nutrition-table thead {
+      background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+      color: white;
+    }
+    .nutrition-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nutrition-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .nutrition-table tbody tr:hover {
+      background: #f0fdfa;
+    }
+    .nutrition-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .food-name {
+      font-weight: 600;
+      color: #0f766e;
+    }
+    .serving-size {
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+    .high-protein {
+      color: #dc2626;
+      font-weight: 600;
+    }
+    .high-carb {
+      color: #ea580c;
+      font-weight: 600;
+    }
+    .high-fiber {
+      color: #16a34a;
+      font-weight: 600;
+    }
+    .search-box {
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #14b8a6;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    .category-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #14b8a6;
+      background: white;
+      color: #0f766e;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .category-tab:hover {
+      background: #f0fdfa;
+    }
+    .category-tab.active {
+      background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+      color: white;
+    }
+    .nutrition-section {
+      display: none;
+    }
+    .nutrition-section.active {
+      display: block;
+    }
+    .legend {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+      padding: 1rem;
+      background: #f0fdfa;
+      border-radius: 0.5rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="nutrition-chart.html" aria-current="page">Nutrition Chart</a></li>
+        <li><a href="recipe.html">Recipes</a></li>
+        <li><a href="nutri.html">Tracker</a></li>
+        <li><a href="tracker-health.html">Health</a></li>
+        <li><a href="planner.html">Planner</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero motion-in">
+      <div style="text-align: center;">
+        <p class="eyebrow">Complete Nutrition Guide</p>
+        <h1>Indian Food Nutrition Chart</h1>
+        <p class="lead">Comprehensive nutritional information for common Indian foods, recipes, and diet plans. All values per 100g unless specified.</p>
+      </div>
+    </section>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" id="nutritionSearch" placeholder="🔍 Search for any food item..." aria-label="Search nutrition">
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="veg-staples">Veg Staples</button>
+      <button class="category-tab" data-category="veg-proteins">Veg Proteins</button>
+      <button class="category-tab" data-category="non-veg">Non-Veg</button>
+      <button class="category-tab" data-category="snacks">Snacks & Street Food</button>
+      <button class="category-tab" data-category="fruits">Fruits & Veggies</button>
+      <button class="category-tab" data-category="diet-recipes">Diet Recipes</button>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-dot high-protein" style="background: #dc2626;"></span>
+        <span>High Protein (>15g)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot high-carb" style="background: #ea580c;"></span>
+        <span>High Carbs (>50g)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot high-fiber" style="background: #16a34a;"></span>
+        <span>High Fiber (>5g)</span>
+      </div>
+    </div>
+
+    <!-- Vegetarian Staples -->
+    <section class="section nutrition-section active" data-category="veg-staples">
+      <h2 class="section-title">🌾 Vegetarian Staples & Grains</h2>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Serving</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">White Rice (Cooked)</td>
+            <td class="serving-size">1 cup / 158g</td>
+            <td>205</td>
+            <td>4.2</td>
+            <td class="high-carb">45</td>
+            <td>0.4</td>
+            <td>0.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Brown Rice (Cooked)</td>
+            <td class="serving-size">1 cup / 195g</td>
+            <td>218</td>
+            <td>5</td>
+            <td>46</td>
+            <td>1.6</td>
+            <td class="high-fiber">3.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chapati / Roti</td>
+            <td class="serving-size">1 medium / 40g</td>
+            <td>120</td>
+            <td>3.5</td>
+            <td>25</td>
+            <td>2</td>
+            <td>2.8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Paratha (Plain)</td>
+            <td class="serving-size">1 piece / 60g</td>
+            <td>200</td>
+            <td>4</td>
+            <td>28</td>
+            <td>8</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Idli</td>
+            <td class="serving-size">2 pieces / 100g</td>
+            <td>132</td>
+            <td>4</td>
+            <td>28</td>
+            <td>0.5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Dosa (Plain)</td>
+            <td class="serving-size">1 large / 100g</td>
+            <td>168</td>
+            <td>4.5</td>
+            <td>32</td>
+            <td>3</td>
+            <td>2.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Poha</td>
+            <td class="serving-size">1 cup / 180g</td>
+            <td>250</td>
+            <td>6</td>
+            <td>42</td>
+            <td>6</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Upma</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>220</td>
+            <td>5</td>
+            <td>38</td>
+            <td>5</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Quinoa (Cooked)</td>
+            <td class="serving-size">1 cup / 185g</td>
+            <td>222</td>
+            <td>8</td>
+            <td>39</td>
+            <td>3.6</td>
+            <td class="high-fiber">5.2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Oats (Raw)</td>
+            <td class="serving-size">½ cup / 40g</td>
+            <td>150</td>
+            <td>5</td>
+            <td>27</td>
+            <td>2.5</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Naan</td>
+            <td class="serving-size">1 piece / 90g</td>
+            <td>262</td>
+            <td>7</td>
+            <td>45</td>
+            <td>5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Puri (Fried)</td>
+            <td class="serving-size">1 piece / 20g</td>
+            <td>85</td>
+            <td>2</td>
+            <td>11</td>
+            <td>4</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Thepla</td>
+            <td class="serving-size">1 piece / 40g</td>
+            <td>130</td>
+            <td>3</td>
+            <td>20</td>
+            <td>4</td>
+            <td>2.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Khichdi (Plain)</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>220</td>
+            <td>8</td>
+            <td>42</td>
+            <td>2</td>
+            <td class="high-fiber">5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Biryani (Veg)</td>
+            <td class="serving-size">1 plate / 300g</td>
+            <td>380</td>
+            <td>10</td>
+            <td class="high-carb">68</td>
+            <td>8</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Rava Dosa</td>
+            <td class="serving-size">1 large / 100g</td>
+            <td>185</td>
+            <td>4</td>
+            <td>30</td>
+            <td>5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Wheat Bread (Slice)</td>
+            <td class="serving-size">1 slice / 30g</td>
+            <td>80</td>
+            <td>3</td>
+            <td>15</td>
+            <td>1</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Jeera Rice</td>
+            <td class="serving-size">1 cup / 180g</td>
+            <td>240</td>
+            <td>5</td>
+            <td>48</td>
+            <td>4</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Vegetarian Proteins -->
+    <section class="section nutrition-section" data-category="veg-proteins">
+      <h2 class="section-title">🥛 Vegetarian Protein Sources</h2>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Serving</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Paneer (Cottage Cheese)</td>
+            <td class="serving-size">100g</td>
+            <td>265</td>
+            <td class="high-protein">18</td>
+            <td>1.2</td>
+            <td>20</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Tofu</td>
+            <td class="serving-size">100g</td>
+            <td>76</td>
+            <td>8</td>
+            <td>1.9</td>
+            <td>4.8</td>
+            <td>0.3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Moong Dal (Cooked)</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>212</td>
+            <td class="high-protein">14</td>
+            <td>38</td>
+            <td>0.8</td>
+            <td class="high-fiber">15.4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Toor Dal (Cooked)</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>220</td>
+            <td class="high-protein">15</td>
+            <td>40</td>
+            <td>0.7</td>
+            <td class="high-fiber">13</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chana (Chickpeas)</td>
+            <td class="serving-size">1 cup / 164g</td>
+            <td>269</td>
+            <td class="high-protein">15</td>
+            <td>45</td>
+            <td>4</td>
+            <td class="high-fiber">12.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Rajma (Kidney Beans)</td>
+            <td class="serving-size">1 cup / 177g</td>
+            <td>225</td>
+            <td class="high-protein">15</td>
+            <td>40</td>
+            <td>0.9</td>
+            <td class="high-fiber">13</td>
+          </tr>
+          <tr>
+            <td class="food-name">Soya Chunks</td>
+            <td class="serving-size">50g dry</td>
+            <td>173</td>
+            <td class="high-protein">26</td>
+            <td>17</td>
+            <td>1</td>
+            <td class="high-fiber">8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Greek Yogurt</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>130</td>
+            <td class="high-protein">17</td>
+            <td>7</td>
+            <td>3</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Regular Curd/Dahi</td>
+            <td class="serving-size">1 cup / 240g</td>
+            <td>98</td>
+            <td>11</td>
+            <td>12</td>
+            <td>2.4</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Milk (Full Fat)</td>
+            <td class="serving-size">1 cup / 240ml</td>
+            <td>149</td>
+            <td>7.7</td>
+            <td>12</td>
+            <td>8</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Almonds</td>
+            <td class="serving-size">30g / 23 nuts</td>
+            <td>173</td>
+            <td>6</td>
+            <td>6</td>
+            <td>15</td>
+            <td>3.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Peanuts (Roasted)</td>
+            <td class="serving-size">30g</td>
+            <td>176</td>
+            <td>7.8</td>
+            <td>5</td>
+            <td>15</td>
+            <td>2.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Masoor Dal (Red Lentils)</td>
+            <td class="serving-size">1 cup cooked / 198g</td>
+            <td>230</td>
+            <td class="high-protein">18</td>
+            <td>40</td>
+            <td>0.8</td>
+            <td>15.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Urad Dal (Black Lentils)</td>
+            <td class="serving-size">1 cup cooked / 200g</td>
+            <td>235</td>
+            <td class="high-protein">17</td>
+            <td>42</td>
+            <td>1</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td class="food-name">Black Chana (Kala Chana)</td>
+            <td class="serving-size">1 cup cooked / 164g</td>
+            <td>269</td>
+            <td class="high-protein">15</td>
+            <td>45</td>
+            <td>4</td>
+            <td>12.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Walnuts</td>
+            <td class="serving-size">30g / 7 whole</td>
+            <td>196</td>
+            <td>4.6</td>
+            <td>4</td>
+            <td>19.5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Cashews</td>
+            <td class="serving-size">30g / 18 nuts</td>
+            <td>157</td>
+            <td>5</td>
+            <td>9</td>
+            <td>12</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chia Seeds</td>
+            <td class="serving-size">2 tbsp / 28g</td>
+            <td>138</td>
+            <td>4.7</td>
+            <td>12</td>
+            <td>8.7</td>
+            <td>9.8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Flaxseeds (Ground)</td>
+            <td class="serving-size">2 tbsp / 20g</td>
+            <td>110</td>
+            <td>3.8</td>
+            <td>6</td>
+            <td>8.6</td>
+            <td>5.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Soy Milk (Unsweetened)</td>
+            <td class="serving-size">1 cup / 240ml</td>
+            <td>80</td>
+            <td>7</td>
+            <td>4</td>
+            <td>4</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Non-Vegetarian -->
+    <section class="section nutrition-section" data-category="non-veg">
+      <h2 class="section-title">🍗 Non-Vegetarian Options</h2>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Serving</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Chicken Breast (Grilled)</td>
+            <td class="serving-size">100g</td>
+            <td>165</td>
+            <td class="high-protein">31</td>
+            <td>0</td>
+            <td>3.6</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken Curry</td>
+            <td class="serving-size">1 cup / 240g</td>
+            <td>285</td>
+            <td class="high-protein">28</td>
+            <td>8</td>
+            <td>16</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Mutton Curry</td>
+            <td class="serving-size">100g</td>
+            <td>250</td>
+            <td class="high-protein">26</td>
+            <td>3</td>
+            <td>15</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Fish (Rohu, Grilled)</td>
+            <td class="serving-size">100g</td>
+            <td>109</td>
+            <td class="high-protein">17.5</td>
+            <td>0</td>
+            <td>4</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Fish Curry</td>
+            <td class="serving-size">1 cup / 240g</td>
+            <td>180</td>
+            <td class="high-protein">20</td>
+            <td>5</td>
+            <td>9</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Prawn/Shrimp</td>
+            <td class="serving-size">100g</td>
+            <td>99</td>
+            <td class="high-protein">24</td>
+            <td>0.2</td>
+            <td>0.3</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Eggs (Boiled)</td>
+            <td class="serving-size">2 large / 100g</td>
+            <td>155</td>
+            <td class="high-protein">13</td>
+            <td>1.1</td>
+            <td>11</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Egg Curry</td>
+            <td class="serving-size">2 eggs + gravy</td>
+            <td>280</td>
+            <td class="high-protein">16</td>
+            <td>8</td>
+            <td>20</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken Biryani</td>
+            <td class="serving-size">1 plate / 300g</td>
+            <td>450</td>
+            <td class="high-protein">25</td>
+            <td class="high-carb">52</td>
+            <td>15</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Fish Fry</td>
+            <td class="serving-size">100g</td>
+            <td>220</td>
+            <td class="high-protein">18</td>
+            <td>8</td>
+            <td>13</td>
+            <td>0.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Tandoori Chicken</td>
+            <td class="serving-size">1 leg piece / 100g</td>
+            <td>165</td>
+            <td class="high-protein">26</td>
+            <td>2</td>
+            <td>5</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken Tikka</td>
+            <td class="serving-size">100g / 4-5 pieces</td>
+            <td>150</td>
+            <td class="high-protein">24</td>
+            <td>3</td>
+            <td>4</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Butter Chicken</td>
+            <td class="serving-size">1 cup / 250g</td>
+            <td>438</td>
+            <td class="high-protein">30</td>
+            <td>12</td>
+            <td>30</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Keema/Minced Meat</td>
+            <td class="serving-size">1 cup / 200g</td>
+            <td>320</td>
+            <td class="high-protein">28</td>
+            <td>6</td>
+            <td>20</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Fish Tikka</td>
+            <td class="serving-size">100g / 4 pieces</td>
+            <td>135</td>
+            <td class="high-protein">22</td>
+            <td>2</td>
+            <td>4</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="food-name">Mutton Biryani</td>
+            <td class="serving-size">1 plate / 300g</td>
+            <td>520</td>
+            <td class="high-protein">28</td>
+            <td class="high-carb">55</td>
+            <td>20</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Pomfret Fry</td>
+            <td class="serving-size">1 medium / 150g</td>
+            <td>270</td>
+            <td class="high-protein">25</td>
+            <td>8</td>
+            <td>16</td>
+            <td>0.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken 65</td>
+            <td class="serving-size">100g / 6 pieces</td>
+            <td>280</td>
+            <td class="high-protein">20</td>
+            <td>12</td>
+            <td>18</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Snacks & Street Food -->
+    <section class="section nutrition-section" data-category="snacks">
+      <h2 class="section-title">🍿 Snacks & Street Food</h2>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Serving</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Samosa</td>
+            <td class="serving-size">1 piece / 50g</td>
+            <td>150</td>
+            <td>3</td>
+            <td>18</td>
+            <td>7</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Pakora/Bhajiya</td>
+            <td class="serving-size">100g / 5 pieces</td>
+            <td>280</td>
+            <td>8</td>
+            <td>30</td>
+            <td>14</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Vada Pav</td>
+            <td class="serving-size">1 piece / 120g</td>
+            <td>290</td>
+            <td>7</td>
+            <td>42</td>
+            <td>10</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Pani Puri / Golgappa</td>
+            <td class="serving-size">6 pieces</td>
+            <td>180</td>
+            <td>4</td>
+            <td>32</td>
+            <td>3</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Pav Bhaji</td>
+            <td class="serving-size">1 plate / 300g</td>
+            <td>400</td>
+            <td>8</td>
+            <td>50</td>
+            <td>18</td>
+            <td class="high-fiber">6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chole Bhature</td>
+            <td class="serving-size">1 plate</td>
+            <td>550</td>
+            <td class="high-protein">18</td>
+            <td class="high-carb">65</td>
+            <td>22</td>
+            <td class="high-fiber">10</td>
+          </tr>
+          <tr>
+            <td class="food-name">Khakhra</td>
+            <td class="serving-size">4 pieces / 40g</td>
+            <td>160</td>
+            <td>5</td>
+            <td>30</td>
+            <td>2</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Namkeen/Mixture</td>
+            <td class="serving-size">30g / small bowl</td>
+            <td>168</td>
+            <td>4</td>
+            <td>18</td>
+            <td>9</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Dhokla</td>
+            <td class="serving-size">100g / 4 pieces</td>
+            <td>160</td>
+            <td>5</td>
+            <td>28</td>
+            <td>3</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Banana Chips</td>
+            <td class="serving-size">30g</td>
+            <td>147</td>
+            <td>0.7</td>
+            <td>17</td>
+            <td>8</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Kachori</td>
+            <td class="serving-size">1 piece / 60g</td>
+            <td>180</td>
+            <td>4</td>
+            <td>22</td>
+            <td>8</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Mirchi Bajji</td>
+            <td class="serving-size">1 piece / 40g</td>
+            <td>95</td>
+            <td>2</td>
+            <td>12</td>
+            <td>4.5</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Medu Vada</td>
+            <td class="serving-size">2 pieces / 90g</td>
+            <td>215</td>
+            <td>6</td>
+            <td>25</td>
+            <td>10</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Aloo Tikki</td>
+            <td class="serving-size">1 piece / 80g</td>
+            <td>175</td>
+            <td>3</td>
+            <td>24</td>
+            <td>7</td>
+            <td>2.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Bhel Puri</td>
+            <td class="serving-size">1 cup / 150g</td>
+            <td>220</td>
+            <td>5</td>
+            <td>38</td>
+            <td>6</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Sev Puri</td>
+            <td class="serving-size">6 pieces</td>
+            <td>250</td>
+            <td>4</td>
+            <td>32</td>
+            <td>11</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Plain Dosa</td>
+            <td class="serving-size">1 medium</td>
+            <td>133</td>
+            <td>4</td>
+            <td>25</td>
+            <td>1.5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td class="food-name">Sambar Idli</td>
+            <td class="serving-size">2 idlis + sambar</td>
+            <td>160</td>
+            <td>6</td>
+            <td>30</td>
+            <td>2</td>
+            <td>3.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Fruits & Vegetables -->
+    <section class="section nutrition-section" data-category="fruits">
+      <h2 class="section-title">🥗 Fruits & Vegetables</h2>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Food Item</th>
+            <th>Serving</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Banana</td>
+            <td class="serving-size">1 medium / 118g</td>
+            <td>105</td>
+            <td>1.3</td>
+            <td>27</td>
+            <td>0.4</td>
+            <td>3.1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Apple</td>
+            <td class="serving-size">1 medium / 182g</td>
+            <td>95</td>
+            <td>0.5</td>
+            <td>25</td>
+            <td>0.3</td>
+            <td>4.4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Mango</td>
+            <td class="serving-size">1 cup / 165g</td>
+            <td>99</td>
+            <td>1.4</td>
+            <td>25</td>
+            <td>0.6</td>
+            <td>2.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Papaya</td>
+            <td class="serving-size">1 cup / 140g</td>
+            <td>55</td>
+            <td>0.9</td>
+            <td>14</td>
+            <td>0.2</td>
+            <td>2.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Orange</td>
+            <td class="serving-size">1 medium / 131g</td>
+            <td>62</td>
+            <td>1.2</td>
+            <td>15</td>
+            <td>0.2</td>
+            <td>3.1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Spinach (Cooked)</td>
+            <td class="serving-size">1 cup / 180g</td>
+            <td>41</td>
+            <td>5.3</td>
+            <td>6.8</td>
+            <td>0.5</td>
+            <td>4.3</td>
+          </tr>
+          <tr>
+            <td class="food-name">Broccoli (Cooked)</td>
+            <td class="serving-size">1 cup / 156g</td>
+            <td>55</td>
+            <td>3.7</td>
+            <td>11</td>
+            <td>0.6</td>
+            <td class="high-fiber">5.1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Tomato</td>
+            <td class="serving-size">1 medium / 123g</td>
+            <td>22</td>
+            <td>1.1</td>
+            <td>4.8</td>
+            <td>0.2</td>
+            <td>1.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Carrot</td>
+            <td class="serving-size">1 cup / 128g</td>
+            <td>52</td>
+            <td>1.2</td>
+            <td>12</td>
+            <td>0.3</td>
+            <td>3.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Potato (Boiled)</td>
+            <td class="serving-size">1 medium / 173g</td>
+            <td>164</td>
+            <td>3.8</td>
+            <td>37</td>
+            <td>0.2</td>
+            <td>2.5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Guava</td>
+            <td class="serving-size">1 medium / 150g</td>
+            <td>68</td>
+            <td>2.6</td>
+            <td>14</td>
+            <td>0.9</td>
+            <td>5.4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Watermelon</td>
+            <td class="serving-size">1 cup / 152g</td>
+            <td>46</td>
+            <td>0.9</td>
+            <td>12</td>
+            <td>0.2</td>
+            <td>0.6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Pomegranate</td>
+            <td class="serving-size">1 cup seeds / 174g</td>
+            <td>144</td>
+            <td>2.9</td>
+            <td>32</td>
+            <td>2</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td class="food-name">Grapes</td>
+            <td class="serving-size">1 cup / 92g</td>
+            <td>62</td>
+            <td>0.6</td>
+            <td>16</td>
+            <td>0.3</td>
+            <td>0.8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Sweet Potato (Boiled)</td>
+            <td class="serving-size">1 medium / 150g</td>
+            <td>130</td>
+            <td>2.4</td>
+            <td>30</td>
+            <td>0.2</td>
+            <td>4.7</td>
+          </tr>
+          <tr>
+            <td class="food-name">Cauliflower (Cooked)</td>
+            <td class="serving-size">1 cup / 124g</td>
+            <td>28</td>
+            <td>2.3</td>
+            <td>5.7</td>
+            <td>0.3</td>
+            <td>2.9</td>
+          </tr>
+          <tr>
+            <td class="food-name">Bottle Gourd/Lauki (Cooked)</td>
+            <td class="serving-size">1 cup / 180g</td>
+            <td>26</td>
+            <td>1.1</td>
+            <td>5.4</td>
+            <td>0.1</td>
+            <td>1.8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Brinjal/Eggplant (Cooked)</td>
+            <td class="serving-size">1 cup / 150g</td>
+            <td>35</td>
+            <td>0.8</td>
+            <td>8.6</td>
+            <td>0.2</td>
+            <td>2.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Diet Recipes -->
+    <section class="section nutrition-section" data-category="diet-recipes">
+      <h2 class="section-title">🥗 Diet Recipe Nutrition Info</h2>
+      
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <div class="panel" style="background: var(--brand-light); border-left: 4px solid var(--brand);">
+          <h3>Weight Loss Recipes (400-500 cal/meal)</h3>
+          <p style="color: #64748b; font-size: 0.9rem;">High protein, moderate carbs, healthy fats</p>
+        </div>
+        <div class="panel" style="background: var(--accent-light); border-left: 4px solid var(--accent);">
+          <h3>Muscle Gain Recipes (600-700 cal/meal)</h3>
+          <p style="color: #64748b; font-size: 0.9rem;">Very high protein, high carbs, moderate fats</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem; color: #0f766e;">🌱 Vegetarian Diet Recipes</h3>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Recipe Name</th>
+            <th>Type</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Quinoa Salad Bowl</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>420</td>
+            <td class="high-protein">18</td>
+            <td>52</td>
+            <td>16</td>
+            <td class="high-fiber">9</td>
+          </tr>
+          <tr>
+            <td class="food-name">Paneer Tikka with Dal</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>680</td>
+            <td class="high-protein">42</td>
+            <td class="high-carb">58</td>
+            <td>24</td>
+            <td class="high-fiber">12</td>
+          </tr>
+          <tr>
+            <td class="food-name">Tofu Stir-Fry Bowl</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>380</td>
+            <td class="high-protein">22</td>
+            <td>35</td>
+            <td>15</td>
+            <td class="high-fiber">8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Moong Dal Cheela (3 pcs)</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>320</td>
+            <td class="high-protein">18</td>
+            <td>42</td>
+            <td>6</td>
+            <td class="high-fiber">7</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chickpea Curry with Brown Rice</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>620</td>
+            <td class="high-protein">28</td>
+            <td class="high-carb">88</td>
+            <td>14</td>
+            <td class="high-fiber">15</td>
+          </tr>
+          <tr>
+            <td class="food-name">Palak Paneer with Roti</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>580</td>
+            <td class="high-protein">32</td>
+            <td>48</td>
+            <td>26</td>
+            <td class="high-fiber">8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Vegetable Khichdi</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>350</td>
+            <td>12</td>
+            <td>58</td>
+            <td>6</td>
+            <td class="high-fiber">7</td>
+          </tr>
+          <tr>
+            <td class="food-name">Soya Chunk Curry with Rice</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>650</td>
+            <td class="high-protein">38</td>
+            <td class="high-carb">72</td>
+            <td>18</td>
+            <td class="high-fiber">11</td>
+          </tr>
+          <tr>
+            <td class="food-name">Sprouts Salad with Paneer</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>285</td>
+            <td class="high-protein">20</td>
+            <td>28</td>
+            <td>9</td>
+            <td class="high-fiber">8</td>
+          </tr>
+          <tr>
+            <td class="food-name">Rajma Chawal (1 plate)</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>590</td>
+            <td class="high-protein">24</td>
+            <td class="high-carb">85</td>
+            <td>12</td>
+            <td class="high-fiber">14</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top: 3rem; color: #0f766e;">🍗 Non-Vegetarian Diet Recipes</h3>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Recipe Name</th>
+            <th>Type</th>
+            <th>Calories</th>
+            <th>Protein (g)</th>
+            <th>Carbs (g)</th>
+            <th>Fat (g)</th>
+            <th>Fiber (g)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="food-name">Grilled Chicken Salad</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>380</td>
+            <td class="high-protein">42</td>
+            <td>18</td>
+            <td>15</td>
+            <td class="high-fiber">6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken Breast with Rice</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>720</td>
+            <td class="high-protein">58</td>
+            <td class="high-carb">75</td>
+            <td>12</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Fish Curry with Brown Rice</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>450</td>
+            <td class="high-protein">38</td>
+            <td>48</td>
+            <td>10</td>
+            <td class="high-fiber">5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Egg White Omelette (4 whites)</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>180</td>
+            <td class="high-protein">24</td>
+            <td>4</td>
+            <td>2</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken Biryani (Lean)</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>680</td>
+            <td class="high-protein">45</td>
+            <td class="high-carb">72</td>
+            <td>18</td>
+            <td class="high-fiber">5</td>
+          </tr>
+          <tr>
+            <td class="food-name">Grilled Fish with Veggies</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>320</td>
+            <td class="high-protein">35</td>
+            <td>22</td>
+            <td>9</td>
+            <td class="high-fiber">6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Mutton Keema with Roti</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>650</td>
+            <td class="high-protein">48</td>
+            <td>52</td>
+            <td>24</td>
+            <td class="high-fiber">6</td>
+          </tr>
+          <tr>
+            <td class="food-name">Prawn Stir-Fry</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>280</td>
+            <td class="high-protein">38</td>
+            <td>18</td>
+            <td>6</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Chicken & Egg Fried Rice</td>
+            <td class="serving-size">Muscle Gain</td>
+            <td>720</td>
+            <td class="high-protein">52</td>
+            <td class="high-carb">68</td>
+            <td>22</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td class="food-name">Boiled Eggs with Toast</td>
+            <td class="serving-size">Weight Loss</td>
+            <td>340</td>
+            <td class="high-protein">22</td>
+            <td>32</td>
+            <td>12</td>
+            <td>3</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="section panel" style="background: var(--brand-light); border-left: 4px solid var(--brand); margin-top: 3rem;">
+      <h2>💡 How to Use This Chart</h2>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div>
+          <h3 style="margin-top: 0;">📊 Track Your Macros</h3>
+          <p>Use this chart to log your meals in our <a href="nutri.html">Nutrition Tracker</a>. Aim for balanced macros based on your goals.</p>
+        </div>
+        <div>
+          <h3 style="margin-top: 0;">🎯 Weight Loss</h3>
+          <p>Focus on high-protein, high-fiber foods. Target 400-500 cal per meal with 20-25g protein.</p>
+        </div>
+        <div>
+          <h3 style="margin-top: 0;">💪 Muscle Gain</h3>
+          <p>Prioritize protein (30-40g per meal) and carbs. Aim for 600-700 cal per meal with weight training.</p>
+        </div>
+        <div>
+          <h3 style="margin-top: 0;">⚖️ Maintenance</h3>
+          <p>Balance your intake with moderate portions. Target 500-600 cal per meal with 20-30g protein.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="panel" style="text-align: center; margin-top: 2rem;">
+      <h3>Start tracking your nutrition today!</h3>
+      <p style="margin-bottom: 1rem;">Use our tracker to log meals from this chart and monitor your progress.</p>
+      <a href="nutri.html" class="btn-primary">Go to Nutrition Tracker</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="recipe.html">Recipes</a>
+        <a href="diet.html">Diet Guides</a>
+        <a href="faq.html">FAQs</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+  <script src="../assets/js/site.js"></script>
+  <script>
+    // Tab switching
+    const tabs = document.querySelectorAll('.category-tab');
+    const sections = document.querySelectorAll('.nutrition-section');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const category = tab.dataset.category;
+        
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding section
+        sections.forEach(section => {
+          if (section.dataset.category === category) {
+            section.classList.add('active');
+          } else {
+            section.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('nutritionSearch');
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const allRows = document.querySelectorAll('.nutrition-table tbody tr');
+      
+      allRows.forEach(row => {
+        const foodName = row.querySelector('.food-name').textContent.toLowerCase();
+        if (foodName.includes(query)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

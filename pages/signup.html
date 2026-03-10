@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NutriNourish</title>
+    <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="top-nav__inner">
+            <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                <span class="nav-toggle__line"></span>
+            </button>
+            <ul class="nav-links" data-nav-links>
+                <li><a href="welcome.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page">
+        <section class="hero" style="min-height: 60vh; align-items: center;">
+            <div style="max-width: 500px; margin: 0 auto; width: 100%;">
+                <div class="panel" style="text-align: center;">
+                    <p class="eyebrow">Get Started</p>
+                    <h1 style="margin-bottom: 0.5rem;">Create Your Account</h1>
+                    <p class="lead" style="margin-bottom: 2rem;">Join thousands tracking their nutrition journey with NutriNourish.</p>
+                    
+                    <form action="features.html" class="signup-form" style="text-align: left;">
+                        <label for="signup-name">Full Name</label>
+                        <input id="signup-name" type="text" placeholder="John Doe" required>
+                        
+                        <label for="signup-email">Email Address</label>
+                        <input id="signup-email" type="email" placeholder="your.email@example.com" required>
+                        
+                        <label for="signup-password">Password</label>
+                        <input id="signup-password" type="password" placeholder="Choose a strong password" required minlength="8">
+                        <small style="display: block; margin-top: -0.5rem; margin-bottom: 1rem; color: #666;">
+                            Must be at least 8 characters long
+                        </small>
+                        
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input id="signup-confirm" type="password" placeholder="Re-enter your password" required>
+                        
+                        <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; cursor: pointer;">
+                            <input type="checkbox" required style="width: auto; margin: 0;">
+                            <span style="font-size: 0.9rem;">I agree to the Terms of Service and Privacy Policy</span>
+                        </label>
+                        
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 0.875rem;">Create Account</button>
+                    </form>
+                    
+                    <p style="margin-top: 1.5rem; text-align: center;">
+                        Already have an account? <a href="login.html" style="color: var(--brand); font-weight: 600;">Login here</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <strong>NutriNourish</strong>
+            <div class="footer__links">
+                <a href="recipe.html">Recipe Book</a>
+                <a href="faq.html">FAQs</a>
+            </div>
+            <span>&copy; <span data-year></span> NutriNourish</span>
+        </div>
+    </footer>
+    <script src="../assets/js/site.js"></script>
+    <script>
+        // Password confirmation validation
+        const form = document.querySelector('.signup-form');
+        form?.addEventListener('submit', (e) => {
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            
+            if (password !== confirm) {
+                e.preventDefault();
+                alert('Passwords do not match. Please try again.');
+                document.getElementById('signup-confirm').focus();
+            }
+        });
+    </script>
+</body>
+</html>

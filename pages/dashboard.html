@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Dashboard - NutriNourish</title>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="top-nav__inner">
+      <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+        <span class="nav-toggle__line"></span>
+      </button>
+      <ul class="nav-links" data-nav-links>
+        <li><a href="welcome.html">Home</a></li>
+        <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
+        <li><a href="nutrition-chart.html">Nutrition Chart</a></li>
+        <li><a href="nutri.html">Tracker</a></li>
+        <li><a href="recipe.html">Recipes</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero motion-in">
+      <div style="text-align: center;">
+        <p class="eyebrow">Your Progress</p>
+        <h1>Track Your Nutrition Journey</h1>
+        <p class="lead">View weekly statistics, trends, and insights from your logged meals.</p>
+      </div>
+    </section>
+
+    <!-- Stats Overview -->
+    <section class="section">
+      <h2 class="section-title">📊 This Week's Summary</h2>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-left: 4px solid #10b981;">
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">Avg Daily Calories</p>
+          <h2 style="margin: 0; color: #10b981;" id="avgCalories">-</h2>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">Target: 2000 cal</p>
+        </div>
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); border-left: 4px solid #3b82f6;">
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">Avg Daily Protein</p>
+          <h2 style="margin: 0; color: #3b82f6;" id="avgProtein">-</h2>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">Target: 100g</p>
+        </div>
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05)); border-left: 4px solid #a855f7;">
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">Logged Days</p>
+          <h2 style="margin: 0; color: #a855f7;" id="loggedDays">-</h2>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">Out of 7</p>
+        </div>
+        <div class="panel" style="text-align: center; background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05)); border-left: 4px solid #f97316;">
+          <p style="margin: 0 0 0.5rem 0; color: #64748b; font-size: 0.9rem;">Consistency</p>
+          <h2 style="margin: 0; color: #f97316;" id="consistency">-</h2>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #94a3b8;">Streak tracking</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="section">
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <!-- Calorie Trend -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">📈 Calorie Trend (7 Days)</h3>
+          <canvas id="calorieChart" style="max-height: 300px;"></canvas>
+        </div>
+        
+        <!-- Macro Distribution -->
+        <div class="panel">
+          <h3 style="margin-top: 0;">🥗 Macro Distribution</h3>
+          <canvas id="macroChart" style="max-height: 300px;"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Breakdown -->
+    <section class="section">
+      <h2 class="section-title">📋 Daily Breakdown</h2>
+      <div class="panel" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+          <thead>
+            <tr style="background: var(--brand-light); border-bottom: 2px solid var(--brand);">
+              <th style="padding: 1rem; text-align: left;">Date</th>
+              <th style="padding: 1rem; text-align: center;">Calories</th>
+              <th style="padding: 1rem; text-align: center;">Protein</th>
+              <th style="padding: 1rem; text-align: center;">Carbs</th>
+              <th style="padding: 1rem; text-align: center;">Fat</th>
+              <th style="padding: 1rem; text-align: center;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="dailyBreakdown">
+            <tr>
+              <td colspan="6" style="padding: 2rem; text-align: center; color: #94a3b8;">
+                No data logged yet. <a href="nutri.html" style="color: var(--brand); font-weight: 600;">Start logging meals →</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Goals & Insights -->
+    <section class="section">
+      <h2 class="section-title">🎯 Insights & Tips</h2>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+        <div class="panel" style="background: var(--brand-light); border-left: 4px solid var(--brand);">
+          <h4 style="margin-top: 0;">💡 This Week's Tip</h4>
+          <p id="weeklyTip">Log consistently to see meaningful trends and patterns emerge.</p>
+        </div>
+        <div class="panel" style="background: var(--accent-light); border-left: 4px solid var(--accent);">
+          <h4 style="margin-top: 0;">🔔 Your Target</h4>
+          <p>Daily: <strong>2000 cal</strong> | <strong>100g protein</strong> | <strong>275g carbs</strong> | <strong>65g fat</strong></p>
+          <a href="#" id="editTargetsBtn" style="color: var(--accent); font-weight: 600; cursor: pointer;">Edit targets →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meal History -->
+    <section class="section">
+      <h2 class="section-title">🍽️ Recent Meals (Last 7 Days)</h2>
+      <div id="mealHistory" class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        <div class="panel" style="text-align: center; color: #94a3b8;">
+          <p>No meals logged yet.</p>
+          <a href="nutri.html" class="btn btn-primary" style="margin-top: 1rem;">Log Your First Meal</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="section" style="text-align: center;">
+      <div class="stack" style="flex-direction: row; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="nutri.html" class="btn btn-primary">📝 Log Meal Today</a>
+        <a href="planner.html" class="btn btn-secondary">📅 Meal Plan</a>
+        <button onclick="downloadReport()" class="btn btn-secondary">📥 Export Report</button>
+        <button onclick="resetData()" class="btn" style="background: #fee2e2; color: #991b1b;">🔄 Clear Data</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <strong>NutriNourish</strong>
+      <div class="footer__links">
+        <a href="nutrition-chart.html">Nutrition Chart</a>
+        <a href="recipe.html">Recipes</a>
+        <a href="faq.html">FAQs</a>
+      </div>
+      <span>&copy; <span data-year></span> NutriNourish</span>
+    </div>
+  </footer>
+
+  <!-- Target Settings Modal -->
+  <div id="targetModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="panel" style="max-width: 400px; width: 90%;">
+      <h2 style="margin-top: 0;">Set Your Daily Targets</h2>
+      <div style="display: grid; gap: 1rem;">
+        <div>
+          <label for="targetCal">Daily Calories:</label>
+          <input type="number" id="targetCal" value="2000" min="1200" max="5000">
+        </div>
+        <div>
+          <label for="targetPro">Daily Protein (g):</label>
+          <input type="number" id="targetPro" value="100" min="30" max="300">
+        </div>
+        <div>
+          <label for="targetCarb">Daily Carbs (g):</label>
+          <input type="number" id="targetCarb" value="275" min="50" max="500">
+        </div>
+        <div>
+          <label for="targetFat">Daily Fat (g):</label>
+          <input type="number" id="targetFat" value="65" min="20" max="200">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <button onclick="saveTargets()" class="btn btn-primary">Save Targets</button>
+          <button onclick="closeTargetModal()" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/site.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

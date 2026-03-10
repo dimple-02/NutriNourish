@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Log - NutriNourish</title>
+        <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+        <nav class="top-nav">
+            <div class="top-nav__inner">
+                <a class="brand" href="welcome.html">Nutri<span>Nourish</span></a>
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+                    <span class="nav-toggle__line"></span>
+                </button>
+                <ul class="nav-links" data-nav-links>
+                    <li><a href="welcome.html">Home</a></li>
+                    <li><a href="nutrition.html" aria-current="page">Quick Log</a></li>
+                    <li><a href="nutri.html">Full Tracker</a></li>
+                    <li><a href="features.html">Features</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="page">
+            <section class="panel" style="max-width:820px; margin-inline:auto;">
+                <h1 style="margin-top:0;">Quick Nutrition Log</h1>
+                <p class="lead">Ideal for rapid calorie logging with remove controls and automatic total calculation.</p>
+                <form id="food-form" class="form-card">
+                    <input type="text" id="food-name" placeholder="Food Name" required>
+                    <input type="number" id="calories" placeholder="Calories" required>
+                    <button type="submit">Add Food</button>
+                </form>
+
+                <section id="log-summary" class="panel" style="margin-top:1rem;">
+                    <h2 style="margin-top:0;">Today's Log</h2>
+                    <ul id="food-list" style="padding-left:1rem;"></ul>
+                    <p><strong>Total Calories: <span id="total-calories">0</span> kcal</strong></p>
+                </section>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer__inner">
+                <strong>NutriNourish</strong>
+                <div class="footer__links">
+                    <a href="nutri.html">Full Tracker</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <span>&copy; <span data-year></span> NutriNourish</span>
+            </div>
+        </footer>
+
+        <script src="../assets/js/site.js"></script>
+    <script src="../assets/js/n.js"></script>
+</body>
+</html>
