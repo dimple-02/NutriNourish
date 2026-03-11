@@ -428,6 +428,30 @@ th {
   animation-delay: 0.2s;
 }
 
+.planner-diet-panel {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.planner-diet-btn.is-active {
+  color: #fff;
+  background: linear-gradient(130deg, var(--brand), #0d9488);
+  box-shadow: 0 8px 22px rgba(13, 148, 136, 0.28);
+}
+
+.planner-template-btn {
+  text-align: left;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.planner-template-btn:hover {
+  background: var(--surface-soft);
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -467,5 +491,9 @@ th {
 
   .nav-links.is-open {
     transform: scaleY(1);
+  }
+
+  .planner-diet-panel .stack {
+    width: 100%;
   }
 }
