@@ -1,4 +1,4 @@
-const NUTRITION_STORAGE_KEY = 'nutriNourishEntries';
+const NUTRITION_STORAGE_KEY = 'nutritionLog';
 const nutritionForm = document.getElementById('nutritionForm');
 const tableBody = document.getElementById('nutritionTableBody');
 
@@ -66,21 +66,28 @@ function parseNumberInput(id) {
 
 function isValidEntry(entry) {
     const numericFields = [entry.calories, entry.protein, entry.carbs, entry.fat];
-    return entry.meal && entry.foodItem && entry.servingSize && numericFields.every((value) => Number.isFinite(value) && value >= 0);
+    const isValid = entry.meal && entry.foodItem && entry.servingSize && numericFields.every((value) => Number.isFinite(value) && value >= 0);
+    console.log('isValidEntry check:', { entry, isValid, numericFields });
+    return isValid;
 }
 
 nutritionForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    console.log('Form submitted');
 
     const entry = {
+        name: document.getElementById('foodItem').value.trim(),
         meal: document.getElementById('meal').value.trim(),
         foodItem: document.getElementById('foodItem').value.trim(),
         servingSize: document.getElementById('servingSize').value.trim(),
         calories: parseNumberInput('calories'),
         protein: parseNumberInput('protein'),
         carbs: parseNumberInput('carbs'),
-        fat: parseNumberInput('fat')
+        fat: parseNumberInput('fat'),
+        date: new Date().toISOString().split('T')[0]
     };
+
+    console.log('New entry:', entry);
 
     if (!isValidEntry(entry)) {
         alert('Please complete all fields with valid non-negative values.');
@@ -88,7 +95,9 @@ nutritionForm.addEventListener('submit', (event) => {
     }
 
     entries.push(entry);
+    console.log('Entries after push:', entries);
     saveEntries();
+    console.log('Saved to localStorage');
     renderTable();
     nutritionForm.reset();
 });
@@ -102,7 +111,19 @@ function restoreEntries() {
     try {
         const parsedEntries = JSON.parse(storedEntries);
         if (Array.isArray(parsedEntries)) {
-            entries = parsedEntries.filter(isValidEntry);
+            entries = parsedEntries.filter(isValidEntry).map(entry => {
+                // Ensure every entry has a date (for backward compatibility)
+                if (!entry.date) {
+                    entry.date = new Date().toISOString().split('T')[0];
+                }
+                // Ensure every entry has a name field
+                if (!entry.name) {
+                    entry.name = entry.foodItem || 'Unknown';
+                }
+                return entry;
+            });
+            // Save the updated entries back to localStorage
+            saveEntries();
         }
     } catch (_) {
         entries = [];

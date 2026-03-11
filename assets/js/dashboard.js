@@ -1,20 +1,63 @@
 // Get all logs from localStorage
 function getAllLogs() {
+  // Try to migrate old data if it exists
+  const oldData = localStorage.getItem('nutriNourishEntries');
+  if (oldData) {
+    console.log('Found old storage key, migrating data...');
+    try {
+      const oldEntries = JSON.parse(oldData);
+      const newData = localStorage.getItem('nutritionLog');
+      const currentEntries = newData ? JSON.parse(newData) : [];
+      
+      // Migrate old entries, adding date if missing
+      const migratedEntries = oldEntries.map(entry => {
+        if (!entry.date) {
+          entry.date = new Date().toISOString().split('T')[0];
+        }
+        if (!entry.name) {
+          entry.name = entry.foodItem || 'Unknown';
+        }
+        return entry;
+      });
+      
+      // Merge with current entries (avoid duplicates by date and name combination)
+      const merged = [...migratedEntries, ...currentEntries].filter((item, index, self) =>
+        index === self.findIndex((t) => t.date === item.date && t.name === item.name)
+      );
+      
+      localStorage.setItem('nutritionLog', JSON.stringify(merged));
+      localStorage.removeItem('nutriNourishEntries'); // Remove old key
+      console.log('Data migration complete. Migrated', migratedEntries.length, 'entries');
+    } catch (e) {
+      console.error('Error during data migration:', e);
+    }
+  }
+  
   const rawData = localStorage.getItem('nutritionLog');
-  return rawData ? JSON.parse(rawData) : [];
+  const logs = rawData ? JSON.parse(rawData) : [];
+  console.log('getAllLogs - Retrieved logs:', logs);
+  return logs;
 }
 
 // Initialize charts and data
 function initializeDashboard() {
+  console.log('initializeDashboard called');
   const logs = getAllLogs();
-  const today = new Date();
-  const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+  console.log('Total logs:', logs.length);
+  
+  const today = new Date().toISOString().split('T')[0];
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  
+  console.log('Date range:', sevenDaysAgo, 'to', today);
   
   // Filter logs for last 7 days
   const recentLogs = logs.filter(log => {
-    const logDate = new Date(log.date);
-    return logDate >= sevenDaysAgo && logDate <= today;
+    const isInRange = log.date && log.date >= sevenDaysAgo && log.date <= today;
+    console.log('Filtering log:', log.date, 'result:', isInRange);
+    return isInRange;
   });
+
+  console.log('Recent logs after filter:', recentLogs.length);
 
   // Group logs by date
   const logsByDate = {};
@@ -25,8 +68,11 @@ function initializeDashboard() {
     }
     logsByDate[date].push(log);
   });
+  
+  console.log('logsByDate structure:', logsByDate);
+  console.log('logsByDate keys:', Object.keys(logsByDate));
 
-  // Calculate stats
+  // Calculate stats (always call, even if empty)
   calculateStats(logsByDate);
   drawCharts(logsByDate);
   displayDailyBreakdown(logsByDate);
@@ -37,10 +83,14 @@ function calculateStats(logsByDate) {
   const dates = Object.keys(logsByDate).sort();
   let totalCalories = 0, totalProtein = 0, totalDays = 0;
   
+  console.log('calculateStats for dates:', dates);
+  
   dates.forEach(date => {
     const meals = logsByDate[date];
     const dayCalories = meals.reduce((sum, m) => sum + (parseFloat(m.calories) || 0), 0);
     const dayProtein = meals.reduce((sum, m) => sum + (parseFloat(m.protein) || 0), 0);
+    
+    console.log(`Date ${date}: cal=${dayCalories}, protein=${dayProtein}`);
     
     if (dayCalories > 0 || dayProtein > 0) {
       totalCalories += dayCalories;
@@ -52,6 +102,8 @@ function calculateStats(logsByDate) {
   const avgCalories = totalDays > 0 ? Math.round(totalCalories / totalDays) : 0;
   const avgProtein = totalDays > 0 ? Math.round(totalProtein / totalDays) : 0;
 
+  console.log('Stats: avgCalories=', avgCalories, 'avgProtein=', avgProtein, 'totalDays=', totalDays);
+
   document.getElementById('avgCalories').textContent = avgCalories + ' cal';
   document.getElementById('avgProtein').textContent = avgProtein + 'g';
   document.getElementById('loggedDays').textContent = totalDays + ' / 7';
@@ -59,92 +111,146 @@ function calculateStats(logsByDate) {
 }
 
 function drawCharts(logsByDate) {
-  // Prepare data for last 7 days
-  const dates = [];
-  const calorieData = [];
-  const proteinData = [];
-  const carbsData = [];
-  const fatData = [];
+  try {
+    console.log('drawCharts called');
+    
+    // Check if Chart is available
+    if (typeof Chart === 'undefined') {
+      console.error('Chart.js library is not loaded!');
+      return;
+    }
+    
+    console.log('Chart.js is available:', Chart);
+    
+    // Prepare data for last 7 days
+    const dates = [];
+    const calorieData = [];
+    const proteinData = [];
+    const carbsData = [];
+    const fatData = [];
 
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
-    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
-    dates.push(dayName);
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
+      dates.push(dayName);
 
-    const meals = logsByDate[dateStr] || [];
-    const cal = meals.reduce((sum, m) => sum + (parseFloat(m.calories) || 0), 0);
-    calorieData.push(cal);
-    proteinData.push(meals.reduce((sum, m) => sum + (parseFloat(m.protein) || 0), 0));
-    carbsData.push(meals.reduce((sum, m) => sum + (parseFloat(m.carbs) || 0), 0));
-    fatData.push(meals.reduce((sum, m) => sum + (parseFloat(m.fat) || 0), 0));
-  }
+      const meals = logsByDate[dateStr] || [];
+      const cal = meals.reduce((sum, m) => sum + (parseFloat(m.calories) || 0), 0);
+      calorieData.push(cal);
+      proteinData.push(meals.reduce((sum, m) => sum + (parseFloat(m.protein) || 0), 0));
+      carbsData.push(meals.reduce((sum, m) => sum + (parseFloat(m.carbs) || 0), 0));
+      fatData.push(meals.reduce((sum, m) => sum + (parseFloat(m.fat) || 0), 0));
+    }
 
-  // Calorie Chart
-  const calorieCtx = document.getElementById('calorieChart')?.getContext('2d');
-  if (calorieCtx && window.calorieChart) {
-    window.calorieChart.destroy();
-  }
-  if (calorieCtx) {
-    window.calorieChart = new Chart(calorieCtx, {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'Calories',
-          data: calorieData,
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-          tension: 0.4,
-          fill: true,
-          pointRadius: 5,
-          pointBackgroundColor: '#10b981'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { callback: v => v + ' cal' }
+    console.log('Chart data prepared:', { dates, calorieData });
+
+    // Calorie Chart
+    const calorieCanvas = document.getElementById('calorieChart');
+    console.log('Calorie canvas element:', calorieCanvas);
+    
+    if (!calorieCanvas) {
+      console.error('calorieChart canvas element not found!');
+    } else {
+      try {
+        const calorieCtx = calorieCanvas.getContext('2d');
+        console.log('Calorie canvas context:', calorieCtx);
+        
+        if (!calorieCtx) {
+          console.error('Failed to get 2d context for calorieChart');
+        } else {
+          // Properly destroy existing chart if it exists
+          if (window.calorieChart && typeof window.calorieChart.destroy === 'function') {
+            console.log('Destroying existing calorie chart');
+            window.calorieChart.destroy();
           }
+          
+          window.calorieChart = new Chart(calorieCtx, {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [{
+                label: 'Calories',
+                data: calorieData,
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5,
+                pointBackgroundColor: '#10b981'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: { legend: { display: false } },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { callback: v => v + ' cal' }
+                }
+              }
+            }
+          });
+          console.log('Calorie chart created successfully');
         }
+      } catch (e) {
+        console.error('Error creating calorie chart:', e);
       }
-    });
-  }
+    }
 
-  // Macro Chart (Pie)
-  const macroCtx = document.getElementById('macroChart')?.getContext('2d');
-  if (macroCtx && window.macroChart) {
-    window.macroChart.destroy();
-  }
-  if (macroCtx) {
-    const avgProtein = Math.round(proteinData.reduce((a, b) => a + b, 0) / 7);
-    const avgCarbs = Math.round(carbsData.reduce((a, b) => a + b, 0) / 7);
-    const avgFat = Math.round(fatData.reduce((a, b) => a + b, 0) / 7);
+    // Macro Chart (Pie)
+    const macroCanvas = document.getElementById('macroChart');
+    console.log('Macro canvas element:', macroCanvas);
+    
+    if (!macroCanvas) {
+      console.error('macroChart canvas element not found!');
+    } else {
+      try {
+        const macroCtx = macroCanvas.getContext('2d');
+        console.log('Macro canvas context:', macroCtx);
+        
+        if (!macroCtx) {
+          console.error('Failed to get 2d context for macroChart');
+        } else {
+          // Properly destroy existing chart if it exists
+          if (window.macroChart && typeof window.macroChart.destroy === 'function') {
+            console.log('Destroying existing macro chart');
+            window.macroChart.destroy();
+          }
+          
+          const avgProtein = Math.round(proteinData.reduce((a, b) => a + b, 0) / 7);
+          const avgCarbs = Math.round(carbsData.reduce((a, b) => a + b, 0) / 7);
+          const avgFat = Math.round(fatData.reduce((a, b) => a + b, 0) / 7);
 
-    window.macroChart = new Chart(macroCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Protein (' + avgProtein + 'g)', 'Carbs (' + avgCarbs + 'g)', 'Fat (' + avgFat + 'g)'],
-        datasets: [{
-          data: [avgProtein * 4, avgCarbs * 4, avgFat * 9],
-          backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444'],
-          borderColor: '#fff',
-          borderWidth: 2
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: { position: 'bottom' }
+          window.macroChart = new Chart(macroCtx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Protein (' + avgProtein + 'g)', 'Carbs (' + avgCarbs + 'g)', 'Fat (' + avgFat + 'g)'],
+              datasets: [{
+                data: [avgProtein * 4, avgCarbs * 4, avgFat * 9],
+                backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444'],
+                borderColor: '#fff',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: { position: 'bottom' }
+              }
+            }
+          });
+          console.log('Macro chart created successfully');
         }
+      } catch (e) {
+        console.error('Error creating macro chart:', e);
       }
-    });
+    }
+  } catch (error) {
+    console.error('Error in drawCharts:', error);
   }
 }
 
@@ -152,7 +258,13 @@ function displayDailyBreakdown(logsByDate) {
   const dates = Object.keys(logsByDate).sort();
   const tbody = document.getElementById('dailyBreakdown');
   
-  if (dates.length === 0) return;
+  console.log('displayDailyBreakdown called with dates:', dates);
+  
+  if (dates.length === 0) {
+    console.log('No dates to display');
+    tbody.innerHTML = '<tr><td colspan="6" style="padding: 2rem; text-align: center; color: #94a3b8;">No data logged yet. <a href="nutri.html" style="color: var(--brand); font-weight: 600;">Start logging meals →</a></td></tr>';
+    return;
+  }
   
   tbody.innerHTML = dates.map(date => {
     const meals = logsByDate[date];
@@ -180,7 +292,13 @@ function displayDailyBreakdown(logsByDate) {
 function displayMealHistory(meals) {
   const container = document.getElementById('mealHistory');
   
-  if (meals.length === 0) return;
+  console.log('displayMealHistory called with meals:', meals.length);
+  
+  if (meals.length === 0) {
+    console.log('No meals to display');
+    container.innerHTML = '<div class="panel" style="text-align: center; color: #94a3b8;"><p>No meals logged yet.</p><a href="nutri.html" class="btn btn-primary" style="margin-top: 1rem;">Log Your First Meal</a></div>';
+    return;
+  }
   
   const recent = meals.slice(-6).reverse();
   container.innerHTML = recent.map(meal => `
@@ -256,5 +374,19 @@ document.getElementById('editTargetsBtn')?.addEventListener('click', (e) => {
   openTargetModal();
 });
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initializeDashboard);
+// Initialize on page load - wait for Chart.js to be available
+function waitForChartAndInit() {
+  if (typeof Chart === 'undefined') {
+    console.log('Waiting for Chart.js to load...');
+    setTimeout(waitForChartAndInit, 100);
+  } else {
+    console.log('Chart.js loaded, initializing dashboard');
+    initializeDashboard();
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', waitForChartAndInit);
+} else {
+  waitForChartAndInit();
+}
